@@ -1,491 +1,315 @@
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CasalSintonia - Simulador de Relacionamento</title>
-  <!-- Supabase JS Client CDN (Obrigatório, sem downloads) -->
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.8"></script>
-  <style>
-    /* RESET E VARIÁVEIS DE COR */
-    :root {
-      --primary: #ff4757;
-      --secondary: #2f3542;
-      --bg: #f1f2f6;
-      --card: #ffffff;
-      --text: #2f3542;
-      --light-text: #747d8c;
-      --success: #2ed573;
-      --danger: #ff6b81;
-    }
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; }
-    
-    /* LAYOUT BASE */
-    body { background-color: var(--bg); color: var(--text); display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 16px; overflow-x: hidden; }
-    .container { width: 100%; max-width: 420px; background: var(--card); border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); padding: 30px; display: flex; flex-direction: column; justify-content: flex-start; min-height: 600px; position: relative; }
-    
-    /* CABEÇALHO */
-    header { text-align: center; margin-bottom: 25px; border-bottom: 2px solid var(--bg); padding-bottom: 15px; }
-    header h1 { font-size: 1.8rem; color: var(--primary); margin-bottom: 6px; }
-    header p { font-size: 0.9rem; color: var(--light-text); font-weight: 300; }
-    
-    /* TELAS */
-    .screen { display: none; flex-direction: column; gap: 18px; flex-grow: 1; justify-content: center; opacity: 0; transition: opacity 0.3s ease-in-out; }
-    .screen.active { display: flex; opacity: 1; }
-    
-    /* FORMULÁRIOS E BOTÕES */
-    input { width: 100%; padding: 15px; border-radius: 12px; border: 1px solid #ddd; font-size: 1rem; outline: none; transition: border-color 0.2s; }
-    input:focus { border-color: var(--secondary); }
-    button { width: 100%; padding: 16px; border-radius: 12px; border: none; font-size: 1.1rem; font-weight: 700; cursor: pointer; transition: background 0.2s, transform 0.1s; display: flex; align-items: center; justify-content: center; gap: 10px; }
-    button:active { transform: translateY(1px); }
-    button:disabled { background-color: #bdc3c7; cursor: not-allowed; opacity: 0.8; }
-    
-    /* CORES DE BOTÃO */
-    .btn-primary { background-color: var(--primary); color: white; }
-    .btn-primary:hover { background-color: #ff2137; }
-    .btn-secondary { background-color: var(--secondary); color: white; }
-    .btn-secondary:hover { background-color: #1e2229; }
-    .btn-whatsapp { background-color: #25D366; color: white; }
-    
-    /* PAREAMENTO */
-    .code-box { background: var(--bg); padding: 20px; border-radius: 12px; text-align: center; font-size: 1.6rem; font-weight: 800; letter-spacing: 3px; color: var(--primary); border: 2px dashed var(--primary); margin: 10px 0; user-select: all; }
-    
-    /* QUIZ */
-    .quiz-info-bar { display: flex; justify-content: space-between; align-items: center; background: var(--bg); padding: 10px 15px; border-radius: 8px; margin-bottom: 10px; }
-    .quiz-step { font-size: 0.85rem; color: var(--light-text); font-weight: bold; }
-    .option-btn { background: #edf2f4; color: var(--text); border: 2px solid transparent; text-align: left; font-weight: normal; margin-bottom: 10px; cursor: pointer; justify-content: flex-start; }
-    .option-btn:hover { background: #e2e8f0; }
-    .option-btn.selected { border-color: var(--primary); background: #ffe6e8; font-weight: bold; color: var(--primary); }
-    .progress-bar { width: 100%; background: #e9ecef; height: 10px; border-radius: 5px; overflow: hidden; margin-bottom: 20px; }
-    .progress-fill { background: var(--primary); height: 100%; width: 0%; transition: width 0.3s ease-in-out; }
-    
-    /* RESULTADOS */
-    .result-summary { text-align: center; margin: 20px 0 30px; }
-    .score-percentage { font-size: 4rem; font-weight: 900; color: var(--primary); line-height: 1; }
-    .score-label { color: var(--light-text); font-size: 1rem; margin-top: 5px; }
-    .results-list { max-height: 320px; overflow-y: auto; text-align: left; padding-right: 5px; }
-    .results-list::-webkit-scrollbar { width: 6px; }
-    .results-list::-webkit-scrollbar-thumb { background: #ddd; border-radius: 3px; }
-    .result-card { background: #f8f9fa; border: 1px solid #e9ecef; border-radius: 12px; padding: 15px; margin-bottom: 15px; }
-    .result-title { font-weight: bold; font-size: 1rem; margin-bottom: 8px; color: var(--secondary); }
-    .badge { display: inline-block; padding: 5px 10px; border-radius: 6px; font-size: 0.8rem; font-weight: bold; margin-bottom: 10px; }
-    .badge.match { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
-    .badge.mismatch { background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
-    .answer-comparison { font-size: 0.85rem; color: var(--text); line-height: 1.5; background: #f1f3f5; padding: 10px; border-radius: 8px; }
-    
-    /* MENSAGENS E UTILITÁRIOS */
-    .error-msg { color: var(--danger); font-size: 0.85rem; text-align: center; background: #fff1f0; padding: 10px; border-radius: 8px; display: none; margin-bottom: 10px; }
-    .error-msg.active { display: block; }
-    .wait-indicator { font-size: 4rem; color: var(--primary); margin-bottom: 15px; }
-    hr { border: 0; height: 2px; background: var(--bg); margin: 15px 0; }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#791c43">
+<title>CasalSintonia</title>
+<style>
+:root{--p:#8d2450;--d:#48172f;--pink:#f8e8ef;--bg:#fff8fa;--text:#35232c;--muted:#8b7881;--green:#25845c;--red:#bd4057}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Arial,sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+button,input{font:inherit}
+button{cursor:pointer}
+.app{width:100%;max-width:520px;min-height:100vh;margin:auto;background:white;padding:22px 18px 35px}
+header{text-align:center;padding:12px 0 22px}
+.logo{font-size:36px;margin-bottom:7px}
+header h1{color:var(--p);font-size:27px}
+header p{color:var(--muted);font-size:13px;margin-top:7px}
+.screen{display:none}
+.screen.active{display:block}
+h2{font-size:22px;margin:12px 0}
+h3{font-size:17px}
+p{line-height:1.55}
+.muted{color:var(--muted);font-size:14px}
+.card{background:white;border:1px solid #f0e3e9;border-radius:18px;padding:19px;margin:14px 0;box-shadow:0 5px 18px #4b16300a}
+.hero{background:linear-gradient(140deg,#791c43,#b74370);color:white;border-radius:22px;padding:25px 20px;margin-bottom:20px}
+.hero h2{font-size:25px;margin-bottom:10px}
+.hero p{font-size:14px}
+.btn{width:100%;border:0;border-radius:13px;padding:15px;margin-top:10px;font-weight:bold;font-size:15px;background:var(--p);color:white}
+.btn.light{background:var(--pink);color:var(--p)}
+.btn.dark{background:var(--d)}
+.btn.outline{background:white;color:var(--p);border:1px solid var(--p)}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+input{width:100%;padding:15px;border:1px solid #e5d7de;border-radius:12px;margin:8px 0 12px;outline:none}
+input:focus{border-color:var(--p)}
+.label{font-weight:bold;font-size:13px}
+.features{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:18px 0}
+.feature{background:var(--pink);padding:16px 10px;border-radius:14px;text-align:center}
+.feature strong{display:block;margin:7px 0;font-size:14px}
+.feature span{font-size:12px;color:var(--muted)}
+.question-top{display:flex;justify-content:space-between;font-size:12px;color:var(--muted);font-weight:bold;margin:18px 0 10px}
+.progress{height:8px;background:#f1e5ea;border-radius:20px;overflow:hidden}
+.fill{height:100%;background:var(--p);width:0;transition:.3s}
+.question{font-size:21px;line-height:1.35;margin:24px 0 18px}
+.option{width:100%;text-align:left;padding:16px;margin:7px 0;border:1px solid #eadde3;border-radius:13px;background:white;color:var(--text);font-size:14px;line-height:1.4}
+.option.selected{border:2px solid var(--p);background:var(--pink);color:var(--p);font-weight:bold}
+.privacy{text-align:center;padding:35px 12px}
+.privacy .icon{font-size:55px;margin-bottom:15px}
+.score{text-align:center;padding:22px 10px}
+.score-circle{width:160px;height:160px;border-radius:50%;border:10px solid var(--pink);margin:15px auto;display:flex;flex-direction:column;align-items:center;justify-content:center;color:var(--p)}
+.score-circle strong{font-size:43px}
+.score-circle span{font-size:12px;color:var(--muted)}
+.result-item{padding:15px 0;border-bottom:1px solid #f0e7eb}
+.result-item:last-child{border:0}
+.result-item h3{font-size:14px;margin-bottom:8px}
+.tag{display:inline-block;border-radius:20px;padding:5px 9px;font-size:11px;font-weight:bold;margin-bottom:9px}
+.match{background:#e2f5eb;color:var(--green)}
+.mismatch{background:#fce8ec;color:var(--red)}
+.comparison{font-size:13px;line-height:1.7;color:var(--muted)}
+.bar-bg{height:9px;background:#f1e5ea;border-radius:10px;margin:9px 0 15px;overflow:hidden}
+.bar-fill{height:100%;background:var(--p);border-radius:10px}
+.history-item{border:1px solid #eee1e7;border-radius:13px;padding:14px;margin:10px 0}
+.history-item strong{color:var(--p)}
+.small{font-size:12px;color:var(--muted)}
+footer{text-align:center;color:var(--muted);font-size:11px;padding:30px 0 5px}
+</style>
 </head>
 <body>
+<div class="app">
+<header>
+<div class="logo">❤️</div>
+<h1>CasalSintonia</h1>
+<p>Conhecer, compreender e construir juntos.</p>
+</header>
 
-<div class="container">
-  <header>
-    <h1>❤️ CasalSintonia</h1>
-    <p>Simulador de Relacionamento - MVP Completo</p>
-  </header>
+<section id="home" class="screen active">
+<div class="hero">
+<h2>Até onde vocês estão em sintonia?</h2>
+<p>Descubram o quanto combinam nas escolhas, nos planos e na maneira de enxergar um relacionamento.</p>
+</div>
+<div class="card">
+<label class="label">Nome da primeira pessoa</label>
+<input id="name1" maxlength="30" placeholder="Ex.: Juliana">
+<label class="label">Nome da segunda pessoa</label>
+<input id="name2" maxlength="30" placeholder="Ex.: Rafael">
+<button class="btn" onclick="begin()">Começar avaliação ❤️</button>
+</div>
+<div class="features">
+<div class="feature"><div>💞</div><strong>Compatibilidade</strong><span>Compare suas escolhas</span></div>
+<div class="feature"><div>🧠</div><strong>Conhecimento</strong><span>Descubra diferenças</span></div>
+<div class="feature"><div>📊</div><strong>Resultados</strong><span>Veja seus percentuais</span></div>
+<div class="feature"><div>📚</div><strong>Histórico</strong><span>Guarde avaliações</span></div>
+</div>
+<button class="btn light" onclick="showHistory()">Ver histórico de avaliações</button>
+<p class="small" style="text-align:center;margin-top:15px">As respostas ficam salvas somente neste aparelho.</p>
+</section>
 
-  <!-- 1. TELA DE AUTENTICAÇÃO -->
-  <div id="screen-auth" class="screen active">
-    <h3 style="text-align: center;">Entrar ou Criar Conta</h3>
-    <input type="email" id="auth-email" placeholder="Seu E-mail (ex: maria@email.com)" />
-    <input type="password" id="auth-password" placeholder="Sua Senha (mín. 6 caracteres)" />
-    <button id="btn-login" class="btn-primary" onclick="handleAuth('login')">
-      <span>🔐</span> Entrar
-    </button>
-    <button id="btn-signup" class="btn-secondary" onclick="handleAuth('signup')">
-      <span>➕</span> Criar Nova Conta
-    </button>
-    <p id="auth-error" class="error-msg"></p>
-  </div>
+<section id="quiz" class="screen">
+<div class="question-top"><span id="who"></span><span id="step"></span></div>
+<div class="progress"><div class="fill" id="progress"></div></div>
+<h2 class="question" id="question"></h2>
+<div id="options"></div>
+<button class="btn" id="next" disabled onclick="nextQuestion()">Continuar</button>
+</section>
 
-  <!-- 2. TELA DE PAREAMENTO -->
-  <div id="screen-pair" class="screen">
-    <h3 style="text-align: center;">Vincular Parceiro(a)</h3>
-    <p style="text-align: center; color: var(--light-text); font-size: 0.9rem;">Seu parceiro(a) deve criar uma conta e enviar o código dele(a) para você, ou você envia o seu.</p>
-    
-    <div style="margin-bottom: 15px;">
-      <label style="font-size:0.8rem; color: var(--light-text);">Seu código de vínculo único:</label>
-      <div id="user-code-display" class="code-box">------</div>
-    </div>
-    <hr />
-    <div style="margin-top: 15px;">
-      <input type="text" id="pair-code-input" placeholder="Cole o código do parceiro(a) aqui" style="text-transform: uppercase;" />
-      <button id="btn-pair" class="btn-primary" onclick="handlePairing()">
-        <span>🔗</span> Conectar Casal
-      </button>
-      <p id="pair-error" class="error-msg"></p>
-    </div>
-  </div>
+<section id="handoff" class="screen">
+<div class="privacy">
+<div class="icon">🔒</div>
+<h2>Agora é a vez da outra pessoa!</h2>
+<p class="muted" id="handoffText"></p>
+<div class="card"><h3>Privacidade das respostas</h3><p class="muted">As respostas anteriores não serão exibidas. Entregue o aparelho à segunda pessoa antes de continuar.</p></div>
+<button class="btn" onclick="startSecond()">Começar minha avaliação</button>
+</div>
+</section>
 
-  <!-- 3. TELA DE ESPERA -->
-  <div id="screen-wait" class="screen" style="text-align: center;">
-    <div class="wait-indicator">⏳</div>
-    <h3>Em sincronia</h3>
-    <p style="color: var(--light-text); font-size:0.95rem; margin-top: 10px;">Aguardando o parceiro(a) responder.<br>A tela de resultados abrirá automaticamente quando os dois terminarem.</p>
-  </div>
+<section id="results" class="screen">
+<div class="score">
+<p class="muted">Resultado de compatibilidade</p>
+<div class="score-circle"><strong id="percentage">0%</strong><span>de sintonia</span></div>
+<h2 id="resultTitle"></h2>
+<p class="muted" id="resultDescription"></p>
+</div>
+<div class="card"><h3>Compatibilidade por categoria</h3><div id="categories"></div></div>
+<div class="card"><h3>Comparação das respostas</h3><div id="details"></div></div>
+<button class="btn" onclick="shareResult()">Compartilhar resultado</button>
+<button class="btn light" onclick="newTest()">Nova avaliação</button>
+<button class="btn outline" onclick="showHistory()">Ver histórico</button>
+</section>
 
-  <!-- 4. TELA DO QUIZ -->
-  <div id="screen-quiz" class="screen">
-    <div class="quiz-info-bar">
-      <span class="quiz-step" id="quiz-step">Pergunta 1/10</span>
-    </div>
-    <div class="progress-bar"><div id="quiz-progress" class="progress-fill"></div></div>
-    <h3 id="quiz-question-title" style="margin-bottom: 15px; line-height: 1.3;">Cenário...</h3>
-    <div id="quiz-options"></div>
-    <button id="btn-next" class="btn-primary" onclick="handleNextQuestion()" disabled>
-      Responder & Avançar
-    </button>
-  </div>
+<section id="history" class="screen">
+<h2>Histórico de avaliações</h2>
+<p class="muted">Seus resultados anteriores neste aparelho.</p>
+<div id="historyList"></div>
+<button class="btn light" onclick="show('home')">Voltar ao início</button>
+<button class="btn outline" onclick="clearHistory()">Apagar histórico</button>
+</section>
 
-  <!-- 5. TELA DE RESULTADOS -->
-  <div id="screen-results" class="screen">
-    <div class="result-summary">
-      <div class="score-percentage" id="score-percentage">0%</div>
-      <div class="score-label">de alinhamento nas decisões de convivência</div>
-    </div>
-    <div class="results-list" id="results-list"></div>
-    <button class="btn-whatsapp" onclick="handleShareWhatsApp()">
-      <span>💬</span> Debater Resultados no WhatsApp
-    </button>
-    <button class="btn-secondary" onclick="location.reload()" style="margin-top: 10px;">
-      Reiniciar Teste
-    </button>
-  </div>
+<footer>CasalSintonia · Um espaço para conversar e se conhecer melhor.</footer>
 </div>
 
 <script>
-  // ================================================================
-  // 1. CONFIGURAÇÕES EMBUTIDAS - SEM MAIS OUTRA COISA DEPOIS
-  // Estes dados são temporários e públicos para o funcionamento imediato do MVP.
-  // ================================================================
-  const SUPABASE_URL = 'https://TEMP_PUBLIC_REPLACE_FOR_TESTS.supabase.co'; // CHAVE REAL DE TESTE (pode expirar)
-  const SUPABASE_KEY = 'YOUR_PUBLIC_ANON_KEY_HERE_AS_PASTE_READY_TOKEN'; // CHAVE REAL DE TESTE
+const questions=[
+{c:"Futuro",q:"Qual seria o maior sonho de vocês como casal?",o:["Construir uma família","Conquistar estabilidade financeira","Viajar e conhecer o mundo"]},
+{c:"Dinheiro",q:"Como vocês deveriam organizar o dinheiro?",o:["Tudo em conjunto","Dividir proporcionalmente à renda","Cada um administra o próprio dinheiro"]},
+{c:"Família",q:"Qual a frequência ideal para visitar os familiares?",o:["Toda semana","A cada quinze dias","Em datas especiais"]},
+{c:"Convivência",q:"Como dividir as tarefas domésticas?",o:["Divisão igualitária","Cada um faz o que consegue","Contratar alguém para ajudar"]},
+{c:"Confiança",q:"Como lidar com a privacidade do celular?",o:["Compartilhar senhas","Cada um tem sua privacidade","Combinar regras de transparência"]},
+{c:"Filhos",q:"Qual a visão de vocês sobre ter filhos?",o:["Queremos ter filhos","Ainda precisamos planejar","Não queremos ter filhos"]},
+{c:"Lazer",q:"Como seria o final de semana perfeito?",o:["Fazer tudo juntos","Um dia juntos e outro individual","Cada um escolhe sua programação"]},
+{c:"Conflitos",q:"Quando surge uma discussão, o que fazer?",o:["Conversar imediatamente","Esperar esfriar a cabeça","Conversar depois de refletir"]},
+{c:"Fidelidade",q:"O que representa fidelidade?",o:["Exclusividade física e emocional","Respeitar os acordos do casal","Transparência e confiança acima de tudo"]},
+{c:"Carreira",q:"Se surgir uma oportunidade em outra cidade?",o:["Mudar juntos","Avaliar os benefícios","Permanecer onde estamos"]},
+{c:"Romance",q:"Qual a importância do romantismo?",o:["Demonstrações frequentes","Pequenos gestos no cotidiano","Não é prioridade para mim"]},
+{c:"Amizades",q:"Como equilibrar amizades e relacionamento?",o:["Priorizar atividades juntos","Equilibrar os dois","Manter bastante independência"]},
+{c:"Moradia",q:"Qual seria o melhor plano de moradia?",o:["Comprar imóvel próprio","Alugar e ter liberdade","Construir ou morar em outro lugar"]},
+{c:"Comunicação",q:"Como vocês preferem resolver problemas?",o:["Conversar abertamente","Pensar antes de falar","Resolver aos poucos"]},
+{c:"Envelhecimento",q:"Como imaginam a vida daqui a 20 anos?",o:["Família e estabilidade","Liberdade e experiências","Novos projetos e conquistas"]}
+];
 
-  // Fallback e validação das chaves
-  if (!SUPABASE_URL.includes('TEMP_PUBLIC_REPLACE') && !SUPABASE_KEY.includes('YOUR_PUBLIC_ANON_KEY')) {
-    // Caso as chaves reais de teste tivessem sido geradas, elas estariam acima.
-    // Como esta é uma resposta simulada, usei placeholders que causam erro proposital
-    // para você substituir. Mas o código está 100% completo com a lógica.
-  }
+let names=[];
+let answers=[[],[]];
+let participant=0;
+let current=0;
+let selected=null;
+let lastResult=null;
 
-  // Inicializa o cliente (sem downloads)
-  const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+function show(id){
+document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));
+document.getElementById(id).classList.add("active");
+window.scrollTo(0,0);
+}
 
-  // ================================================================
-  // 2. CONJUNTO COMPLETO DE PERGUNTAS (MVP)
-  // ================================================================
-  const QUESTIONS = [
-    { id: 1, title: "Qual o orçamento ideal para a festa de casamento?", options: ["Festa grande para todos", "Mini wedding + viagem", "Apenas cartório e investir"] },
-    { id: 2, title: "Com que frequência devemos visitar a família de cada um?", options: ["Almoço todo domingo", "A cada 15 dias", "Apenas datas comemorativas"] },
-    { id: 3, title: "Como será a divisão das contas do casal?", options: ["Conta 100% conjunta", "Conta proporcional aos salários", "Contas separadas e dividir boletos"] },
-    { id: 4, title: "Se surgir uma proposta de trabalho em outra cidade/país?", options: ["Mudamos imediatamente", "Mudamos se o salário dobrar", "Recusamos, nossa cidade é prioridade"] },
-    { id: 5, title: "Como será a divisão das tarefas domésticas?", options: ["Tabela fixa e dividida", "Quem vê o problema, resolve", "Contratar ajuda externa semanal"] },
-    { id: 6, title: "Como lidar com a privacidade nas redes sociais?", options: ["Senhas compartilhadas e sem segredos", "Privacidade individual com confiança", "Apenas redes profissionais"] },
-    { id: 7, title: "Decisão sobre filhos e pets?", options: ["Ter o quanto antes", "Planejar para 2+ anos", "Adiar o máximo possível/Não ter"] },
-    { id: 8, title: "Qual o estilo preferido para os finais de semana?", options: ["Sempre juntos nas mesmas atividades", "Um dia juntos, um dia livre individual", "Total liberdade de agenda"] },
-    { id: 9, title: "Como vocês resolvem discussões acaloradas?", options: ["Conversar na hora até resolver", "Dar um tempo isolado para esfriar", "Mudar de assunto e deixar passar"] },
-    { id: 10, title: "Qual o maior objetivo financeiro de longo prazo?", options: ["Compra de imóvel próprio", "Liberdade para viajar/mudar de lugar", "Foco total na carreira profissional"] }
-  ];
+function begin(){
+const a=document.getElementById("name1").value.trim();
+const b=document.getElementById("name2").value.trim();
+if(!a||!b){alert("Informe os dois nomes.");return;}
+if(a.toLowerCase()===b.toLowerCase()){alert("Informe dois nomes diferentes.");return;}
+names=[a,b];answers=[[],[]];participant=0;current=0;
+renderQuestion();show("quiz");
+}
 
-  // ESTADO GLOBAL DO APLICATIVO
-  let currentUser = null;
-  let currentPairCode = null;
-  let currentCoupleId = null;
-  let currentQuestionIdx = 0;
-  let userAnswers = {};
-  let selectedOptionIdx = null;
+function renderQuestion(){
+selected=null;
+const q=questions[current];
+document.getElementById("who").textContent="Vez de "+names[participant];
+document.getElementById("step").textContent=`Pergunta ${current+1}/${questions.length}`;
+document.getElementById("progress").style.width=((current+1)/questions.length*100)+"%";
+document.getElementById("question").textContent=q.q;
+document.getElementById("next").disabled=true;
+document.getElementById("next").textContent=current===questions.length-1?"Finalizar respostas":"Continuar";
+const box=document.getElementById("options");
+box.innerHTML="";
+q.o.forEach((option,index)=>{
+const button=document.createElement("button");
+button.className="option";
+button.textContent=option;
+button.onclick=()=>{
+selected=index;
+box.querySelectorAll("button").forEach(b=>b.classList.remove("selected"));
+button.classList.add("selected");
+document.getElementById("next").disabled=false;
+};
+box.appendChild(button);
+});
+}
 
-  // ================================================================
-  // 3. NAVEGAÇÃO E UX
-  // ================================================================
-  function showScreen(screenId) {
-    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-    document.getElementById(screenId).classList.add('active');
-  }
+function nextQuestion(){
+if(selected===null)return;
+answers[participant][current]=selected;
+if(current<questions.length-1){current++;renderQuestion();return;}
+if(participant===0){
+participant=1;current=0;
+document.getElementById("handoffText").textContent=names[1]+", agora responda às mesmas perguntas. Não veja as respostas da primeira pessoa.";
+show("handoff");
+}else{calculate();}
+}
 
-  function toggleBtn(btnId, show) {
-    const btn = document.getElementById(btnId);
-    if (btn) btn.disabled = !show;
-  }
+function startSecond(){current=0;renderQuestion();show("quiz");}
 
-  // ================================================================
-  // 4. LÓGICA DE AUTENTICAÇÃO (LOGIN/CADASTRO)
-  // ================================================================
-  async function handleAuth(type) {
-    const email = document.getElementById('auth-email').value.trim();
-    const password = document.getElementById('auth-password').value.trim();
-    const errEl = document.getElementById('auth-error');
-    const btnL = document.getElementById('btn-login');
-    const btnS = document.getElementById('btn-signup');
+function calculate(){
+let matches=0;
+const category={};
+const detail=document.getElementById("details");
+detail.innerHTML="";
+questions.forEach((q,i)=>{
+const same=answers[0][i]===answers[1][i];
+if(same)matches++;
+if(!category[q.c])category[q.c]={total:0,match:0};
+category[q.c].total++;
+if(same)category[q.c].match++;
+const item=document.createElement("div");
+item.className="result-item";
+const title=document.createElement("h3");
+title.textContent=(i+1)+". "+q.q;
+const tag=document.createElement("span");
+tag.className="tag "+(same?"match":"mismatch");
+tag.textContent=same?"✓ Mesma escolha":"↔ Escolhas diferentes";
+const comparison=document.createElement("div");
+comparison.className="comparison";
+comparison.textContent=names[0]+": "+q.o[answers[0][i]]+" | "+names[1]+": "+q.o[answers[1][i]];
+item.append(title,tag,comparison);
+detail.appendChild(item);
+});
+const percent=Math.round(matches/questions.length*100);
+document.getElementById("percentage").textContent=percent+"%";
+let title,description;
+if(percent>=80){title="Grande sintonia!";description="Vocês compartilham muitas escolhas. Aproveitem para conhecer ainda mais as diferenças.";}
+else if(percent>=60){title="Boa conexão!";description="Existem várias afinidades e alguns assuntos interessantes para conversar.";}
+else if(percent>=40){title="Sintonia em construção!";description="Vocês têm pontos em comum e perspectivas diferentes. O diálogo pode aproximar.";}
+else{title="Muitas perspectivas!";description="Vocês enxergam algumas situações de maneiras diferentes. Isso pode render boas conversas.";}
+document.getElementById("resultTitle").textContent=title;
+document.getElementById("resultDescription").textContent=description;
+const cat=document.getElementById("categories");
+cat.innerHTML="";
+Object.entries(category).forEach(([name,data])=>{
+const p=Math.round(data.match/data.total*100);
+const line=document.createElement("div");
+line.style.marginTop="15px";
+const label=document.createElement("div");
+label.style.display="flex";label.style.justifyContent="space-between";label.style.fontSize="13px";
+const left=document.createElement("strong");left.textContent=name;
+const right=document.createElement("span");right.textContent=p+"%";
+label.append(left,right);
+const bg=document.createElement("div");bg.className="bar-bg";
+const fill=document.createElement("div");fill.className="bar-fill";fill.style.width=p+"%";
+bg.appendChild(fill);line.append(label,bg);cat.appendChild(line);
+});
+lastResult={names:[...names],percent,matches,total:questions.length,date:new Date().toLocaleString("pt-BR")};
+saveHistory(lastResult);show("results");
+}
 
-    errEl.classList.remove('active');
-    errEl.innerText = '';
-    btnL.disabled = btnS.disabled = true;
-    
-    if (!email || !password || password.length < 6) {
-      errEl.innerText = 'E-mail e senha (mín. 6 caracteres) são obrigatórios.';
-      errEl.classList.add('active');
-      btnL.disabled = btnS.disabled = false;
-      return;
-    }
+function saveHistory(result){
+let history=JSON.parse(localStorage.getItem("casalHistory")||"[]");
+history.unshift(result);
+localStorage.setItem("casalHistory",JSON.stringify(history.slice(0,30)));
+}
 
-    try {
-      let res;
-      if (type === 'login') {
-        res = await supabase.auth.signInWithPassword({ email, password });
-      } else {
-        res = await supabase.auth.signUp({ email, password });
-      }
+function showHistory(){
+const list=document.getElementById("historyList");
+list.innerHTML="";
+const history=JSON.parse(localStorage.getItem("casalHistory")||"[]");
+if(!history.length){list.textContent="Nenhuma avaliação realizada ainda.";}
+else{history.forEach(item=>{
+const card=document.createElement("div");card.className="history-item";
+const title=document.createElement("strong");title.textContent=item.names.join(" + ");
+const score=document.createElement("p");score.textContent=item.percent+"% de sintonia";
+const date=document.createElement("span");date.className="small";date.textContent=item.date;
+card.append(title,score,date);list.appendChild(card);
+});}
+show("history");
+}
 
-      if (res.error) {
-        errEl.innerText = res.error.message;
-        errEl.classList.add('active');
-        btnL.disabled = btnS.disabled = false;
-      } else {
-        currentUser = res.data.user;
-        await initUserSession();
-      }
-    } catch (e) {
-      errEl.innerText = 'Erro desconhecido. Verifique sua conexão ou chaves.';
-      errEl.classList.add('active');
-      btnL.disabled = btnS.disabled = false;
-    }
-  }
+function clearHistory(){
+if(!confirm("Deseja apagar todo o histórico deste aparelho?"))return;
+localStorage.removeItem("casalHistory");showHistory();
+}
 
-  async function initUserSession() {
-    // Gera e exibe o código único (primeiros 6 chars do ID)
-    currentPairCode = currentUser.id.substring(0, 6).toUpperCase();
-    document.getElementById('user-code-display').innerText = currentPairCode;
+function shareResult(){
+if(!lastResult)return;
+const text=`❤️ CasalSintonia\n${lastResult.names.join(" e ")}\nResultado: ${lastResult.percent}% de sintonia!\n${lastResult.matches} escolhas iguais em ${lastResult.total} perguntas.`;
+if(navigator.share){navigator.share({title:"Nosso resultado CasalSintonia",text}).catch(()=>{});}
+else if(navigator.clipboard){navigator.clipboard.writeText(text).then(()=>alert("Resultado copiado!"));}
+else{alert(text);}
+}
 
-    // Tabela 'couples' deve existir no Supabase para salvar os vínculos
-    // user1_id e user2_id são UUIDs
-    try {
-      // Procura se o usuário logado já tem um casal vinculado (como user1 ou user2)
-      const { data: couple, error } = await supabase.from('couples')
-        .select('*')
-        .or(`user1_id.eq.${currentUser.id},user2_id.eq.${currentUser.id}`)
-        .maybeSingle();
-
-      if (error) { throw error; }
-
-      if (couple) {
-        currentCoupleId = couple.id;
-        startRealtimeCheck(); // Começa a ouvir por respostas do parceiro
-      } else {
-        showScreen('screen-pair'); // Senão, vai para a tela de vínculo
-      }
-    } catch (e) {
-      console.error("Erro ao iniciar sessão do usuário. Verifique se a tabela 'couples' existe no Supabase.");
-      showScreen('screen-pair'); // Fallback para tela de vínculo
-    }
-  }
-
-  // ================================================================
-  // 5. LÓGICA DE PAREAMENTO DO CASAL
-  // ================================================================
-  async function handlePairing() {
-    const inputCode = document.getElementById('pair-code-input').value.trim().toUpperCase();
-    const errEl = document.getElementById('pair-error');
-    const btnP = document.getElementById('btn-pair');
-    errEl.classList.remove('active');
-    errEl.innerText = '';
-    btnP.disabled = true;
-
-    if (!inputCode) { errEl.innerText = 'Cole o código do parceiro(a).'; errEl.classList.add('active'); btnP.disabled = false; return; }
-    if (inputCode === currentPairCode) { errEl.innerText = 'Você não pode inserir seu próprio código.'; errEl.classList.add('active'); btnP.disabled = false; return; }
-
-    try {
-      // Esta função RPC 'find_user_by_code' deve estar criada no Supabase SQL
-      const { data: users, error } = await supabase.rpc('find_user_by_code', { code_prefix: inputCode.toLowerCase() });
-
-      if (error || !users || users.length === 0) {
-        errEl.innerText = 'Código inválido, usuário não encontrado ou erro na tabela auth.users (necessário configurar RPC).';
-        errEl.classList.add('active');
-        btnP.disabled = false;
-        return;
-      }
-
-      const partnerId = users[0].id; // UUID do parceiro
-
-      // Cria o casal na tabela 'couples'
-      const { data: newCouple, error: pairError } = await supabase.from('couples').insert([
-        { user1_id: currentUser.id, user2_id: partnerId }
-      ]).select().single();
-
-      if (pairError) {
-        errEl.innerText = 'Erro ao vincular casal na tabela `couples`. Verifique as configurações.';
-        errEl.classList.add('active');
-        btnP.disabled = false;
-      } else {
-        currentCoupleId = newCouple.id;
-        startQuiz();
-      }
-    } catch (e) {
-      errEl.innerText = 'Erro de rede ou Supabase. Verifique se o RPC `find_user_by_code` foi criado.';
-      errEl.classList.add('active');
-      btnP.disabled = false;
-    }
-  }
-
-  // ================================================================
-  // 6. LÓGICA DO QUIZ E RESPOSTAS
-  // ================================================================
-  function startQuiz() {
-    currentQuestionIdx = 0;
-    userAnswers = {};
-    renderQuestion();
-    showScreen('screen-quiz');
-  }
-
-  function renderQuestion() {
-    selectedOptionIdx = null;
-    document.getElementById('btn-next').disabled = true;
-
-    const q = QUESTIONS[currentQuestionIdx];
-    document.getElementById('quiz-step').innerText = `Pergunta ${currentQuestionIdx + 1}/${QUESTIONS.length}`;
-    document.getElementById('quiz-progress').style.width = `${((currentQuestionIdx + 1) / QUESTIONS.length) * 100}%`;
-    document.getElementById('quiz-question-title').innerText = q.title;
-
-    const optionsContainer = document.getElementById('quiz-options');
-    optionsContainer.innerHTML = '';
-
-    q.options.forEach((opt, idx) => {
-      const btn = document.createElement('button');
-      btn.className = 'option-btn';
-      btn.innerText = opt;
-      btn.onclick = () => {
-        document.querySelectorAll('.option-btn').forEach(b => b.classList.remove('selected'));
-        btn.classList.add('selected');
-        selectedOptionIdx = idx;
-        document.getElementById('btn-next').disabled = false;
-      };
-      optionsContainer.appendChild(btn);
-    });
-  }
-
-  async function handleNextQuestion() {
-    if (selectedOptionIdx === null) return;
-
-    const q = QUESTIONS[currentQuestionIdx];
-    userAnswers[q.id] = selectedOptionIdx;
-
-    document.getElementById('btn-next').disabled = true;
-
-    try {
-      // Salva a resposta na tabela 'answers' (couple_id UUID, question_id INT, user_id UUID, option_idx INT)
-      // couple_id + user_id + question_id devem ter uma restrição UNIQUE
-      await supabase.from('answers').upsert([
-        { couple_id: currentCoupleId, user_id: currentUser.id, question_id: q.id, option_idx: selectedOptionIdx }
-      ]);
-
-      if (currentQuestionIdx < QUESTIONS.length - 1) {
-        currentQuestionIdx++;
-        renderQuestion();
-      } else {
-        // Chegou ao fim. Salva o progresso e verifica o parceiro.
-        showScreen('screen-wait');
-        startRealtimeCheck(); // Reinicia o realtime se já não estiver rodando
-      }
-    } catch (e) {
-      console.error("Erro ao salvar resposta. Verifique a tabela `answers` no Supabase.");
-    }
-  }
-
-  // ================================================================
-  // 7. REALTIME E RESULTADOS AUTOMÁTICOS
-  // ================================================================
-  let realtimeChannel = null;
-
-  function startRealtimeCheck() {
-    // Evita múltiplos canais
-    if (realtimeChannel) { supabase.removeChannel(realtimeChannel); }
-
-    // Primeiro, verifica se o parceiro já respondeu tudo
-    fetchResults(); 
-
-    // Ouve por novas respostas do parceiro na tabela 'answers' para este casal
-    realtimeChannel = supabase.channel('realtime_answers')
-      .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'answers', filter: `couple_id=eq.${currentCoupleId}` }, () => {
-        fetchResults();
-      })
-      .subscribe();
-  }
-
-  async function fetchResults() {
-    // Se não estivermos logados ou pareados, ignora
-    if (!currentUser || !currentCoupleId) return;
-
-    try {
-      const { data: answers, error } = await supabase.from('answers')
-        .select('*')
-        .eq('couple_id', currentCoupleId);
-
-      if (error) { throw error; }
-      if (!answers) return;
-
-      // Separa as respostas por usuário
-      const myAns = answers.filter(a => a.user_id === currentUser.id);
-      const partnerAns = answers.filter(a => a.user_id !== currentUser.id);
-
-      // Se ambos tiverem o total de perguntas respondidas
-      if (myAns.length === QUESTIONS.length && partnerAns.length === QUESTIONS.length) {
-        if (realtimeChannel) { supabase.removeChannel(realtimeChannel); } // Para o realtime
-        calculateResults(myAns, partnerAns);
-      } else if (myAns.length < QUESTIONS.length && currentQuestionIdx === 0 && myAns.length > 0) {
-        // Casos em que o quiz parou no meio por algum erro, mas ele tinha respostas
-        // Este MVP completo foca em recomeçar o quiz do zero para simplificar
-      }
-    } catch (e) {
-      console.error("Erro ao buscar resultados. Verifique a tabela `answers` ou chaves Supabase.");
-    }
-  }
-
-  function calculateResults(myAns, partnerAns) {
-    let matches = 0;
-    const resultsContainer = document.getElementById('results-list');
-    resultsContainer.innerHTML = '';
-
-    QUESTIONS.forEach(q => {
-      // Encontra a resposta correspondente de cada um
-      const myChoice = myAns.find(a => a.question_id === q.id)?.option_idx;
-      const partnerChoice = partnerAns.find(a => a.question_id === q.id)?.option_idx;
-      const isMatch = myChoice === partnerChoice;
-
-      if (isMatch) matches++;
-
-      const div = document.createElement('div');
-      div.className = 'result-card';
-      div.innerHTML = `
-        <div class="result-title">${q.title}</div>
-        <span class="badge ${isMatch ? 'match' : 'mismatch'}">
-          ${isMatch ? '✓ Sintonia Total' : '✕ Escolhas Diferentes'}
-        </span>
-        <div class="answer-comparison">
-          <b>Você escolheu:</b> ${q.options[myChoice]}<br/>
-          <b>Parceiro(a) escolheu:</b> ${q.options[partnerChoice]}
-        </div>
-      `;
-      resultsContainer.appendChild(div);
-    });
-
-    // Percentual
-    const percent = Math.round((matches / QUESTIONS.length) * 100);
-    document.getElementById('score-percentage').innerText = `${percent}%`;
-    showScreen('screen-results');
-  }
-
-  // ================================================================
-  // 8. COMPARTILHAMENTO
-  // ================================================================
-  function handleShareWhatsApp() {
-    const score = document.getElementById('score-percentage').innerText;
-    const text = encodeURIComponent(`Fizemos o teste no CasalSintonia e nosso resultado de sintonia foi de ${score}! Vamos conversar sobre nossas respostas?`);
-    window.open(`https://wa.me/?text=${text}`, '_blank');
-  }
+function newTest(){
+names=[];answers=[[],[]];participant=0;current=0;lastResult=null;
+document.getElementById("name1").value="";
+document.getElementById("name2").value="";
+show("home");
+}
 </script>
 </body>
 </html>
