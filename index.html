@@ -360,14 +360,12 @@ function results() {
   document.getElementById("verdictTitle").textContent = title;
   document.getElementById("interpretation").textContent = desc;
 
-  // Pilares
   const pillarsEl = document.getElementById("pillars");
   pillarsEl.innerHTML = Object.entries(pillarScores).map(([name, [pts, max]]) => {
     const pPct = Math.round((pts / max) * 100);
     return `<div class="pillar"><div class="pillar-title">${name}</div><div class="pillar-val">${pPct}%</div></div>`;
   }).join("");
 
-  // Sugestões de conversa
   const talkTopics = [...alerts, ...mid].slice(0, 3);
   if (talkTopics.length) {
     document.getElementById("talkSection").classList.remove("hidden");
@@ -376,7 +374,6 @@ function results() {
     document.getElementById("talkSection").classList.add("hidden");
   }
 
-  // Render listas
   document.getElementById("alerts").innerHTML = alerts.length
     ? alerts.map(i => renderDiff(i, "tag-alert")).join("")
     : `<p class="small">Nenhum choque crítico encontrado. Excelente sinal!</p>`;
