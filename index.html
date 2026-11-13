@@ -40,21 +40,17 @@
   header p { margin: 6px 0 0; opacity: 0.92; font-size: 15px; }
   main { max-width: 640px; margin: 20px auto; padding: 0 16px; }
   
-  /* Galeria de Casais Diversos */
+  /* Exatamente 3 fotos lado a lado */
   .couple-gallery {
-    display: flex;
-    gap: 10px;
-    overflow-x: auto;
-    padding: 4px 0 16px 0;
-    scrollbar-width: none;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    margin: 16px 0;
   }
-  .couple-gallery::-webkit-scrollbar { display: none; }
   .couple-card {
-    min-width: 110px;
-    height: 90px;
+    height: 105px;
     border-radius: 12px;
     overflow: hidden;
-    flex-shrink: 0;
     border: 2px solid var(--border);
     position: relative;
     box-shadow: 0 2px 6px rgba(0,0,0,0.08);
@@ -69,11 +65,11 @@
     bottom: 0;
     left: 0;
     right: 0;
-    background: rgba(0,0,0,0.6);
+    background: rgba(0,0,0,0.75);
     color: #fff;
     font-size: 10px;
     text-align: center;
-    padding: 2px;
+    padding: 4px 2px;
     font-weight: 600;
   }
 
@@ -199,25 +195,21 @@
   <!-- TELA INICIAL -->
   <section id="home" class="card">
     <h2>Vocês estão prontos para dividir o mesmo teto?</h2>
-    <p class="small">Este simulador acolhe e avalia <b>todos os tipos de casais</b> em 4 pilares reais: Finanças, Rotina, Família/Filhos e Afeto.</p>
+    <p class="small">Este simulador acolhe e avalia <b>todos os tipos de casais com total respeito e igualdade</b> em 4 pilares reais: Finanças, Rotina, Família/Filhos e Afeto.</p>
     
-    <!-- Galeria Visual Inclusiva de Casais -->
+    <!-- Exatamente 3 Fotos Representativas -->
     <div class="couple-gallery">
       <div class="couple-card">
-        <img src="https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?auto=format&fit=crop&w=300&q=80" alt="Casal">
+        <img src="https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?auto=format&fit=crop&w=400&q=80" alt="Homem e Mulher">
         <div class="couple-label">Homem & Mulher</div>
       </div>
       <div class="couple-card">
-        <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=300&q=80" alt="Casal">
+        <img src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=400&q=80" alt="Mulher e Mulher">
         <div class="couple-label">Mulher & Mulher</div>
       </div>
       <div class="couple-card">
-        <img src="https://images.unsplash.com/photo-1581338834647-b0fb4070fa52?auto=format&fit=crop&w=300&q=80" alt="Casal">
+        <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=400&q=80" alt="Homem e Homem">
         <div class="couple-label">Homem & Homem</div>
-      </div>
-      <div class="couple-card">
-        <img src="https://images.unsplash.com/photo-1522529599102-193c0d76b5b6?auto=format&fit=crop&w=300&q=80" alt="Casal">
-        <div class="couple-label">Conexão Real</div>
       </div>
     </div>
 
