@@ -1,314 +1,423 @@
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#791c43">
-<title>CasalSintonia</title>
+<meta name="theme-color" content="#b82956">
+<title>Simulador de Casamento — CasalSintonia</title>
 <style>
-:root{--p:#8d2450;--d:#48172f;--pink:#f8e8ef;--bg:#fff8fa;--text:#35232c;--muted:#8b7881;--green:#25845c;--red:#bd4057}
-*{box-sizing:border-box;margin:0;padding:0}
-body{font-family:Arial,sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
-button,input{font:inherit}
-button{cursor:pointer}
-.app{width:100%;max-width:520px;min-height:100vh;margin:auto;background:white;padding:22px 18px 35px}
-header{text-align:center;padding:12px 0 22px}
-.logo{font-size:36px;margin-bottom:7px}
-header h1{color:var(--p);font-size:27px}
-header p{color:var(--muted);font-size:13px;margin-top:7px}
-.screen{display:none}
-.screen.active{display:block}
-h2{font-size:22px;margin:12px 0}
-h3{font-size:17px}
-p{line-height:1.55}
-.muted{color:var(--muted);font-size:14px}
-.card{background:white;border:1px solid #f0e3e9;border-radius:18px;padding:19px;margin:14px 0;box-shadow:0 5px 18px #4b16300a}
-.hero{background:linear-gradient(140deg,#791c43,#b74370);color:white;border-radius:22px;padding:25px 20px;margin-bottom:20px}
-.hero h2{font-size:25px;margin-bottom:10px}
-.hero p{font-size:14px}
-.btn{width:100%;border:0;border-radius:13px;padding:15px;margin-top:10px;font-weight:bold;font-size:15px;background:var(--p);color:white}
-.btn.light{background:var(--pink);color:var(--p)}
-.btn.dark{background:var(--d)}
-.btn.outline{background:white;color:var(--p);border:1px solid var(--p)}
-.btn:disabled{opacity:.45;cursor:not-allowed}
-input{width:100%;padding:15px;border:1px solid #e5d7de;border-radius:12px;margin:8px 0 12px;outline:none}
-input:focus{border-color:var(--p)}
-.label{font-weight:bold;font-size:13px}
-.features{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:18px 0}
-.feature{background:var(--pink);padding:16px 10px;border-radius:14px;text-align:center}
-.feature strong{display:block;margin:7px 0;font-size:14px}
-.feature span{font-size:12px;color:var(--muted)}
-.question-top{display:flex;justify-content:space-between;font-size:12px;color:var(--muted);font-weight:bold;margin:18px 0 10px}
-.progress{height:8px;background:#f1e5ea;border-radius:20px;overflow:hidden}
-.fill{height:100%;background:var(--p);width:0;transition:.3s}
-.question{font-size:21px;line-height:1.35;margin:24px 0 18px}
-.option{width:100%;text-align:left;padding:16px;margin:7px 0;border:1px solid #eadde3;border-radius:13px;background:white;color:var(--text);font-size:14px;line-height:1.4}
-.option.selected{border:2px solid var(--p);background:var(--pink);color:var(--p);font-weight:bold}
-.privacy{text-align:center;padding:35px 12px}
-.privacy .icon{font-size:55px;margin-bottom:15px}
-.score{text-align:center;padding:22px 10px}
-.score-circle{width:160px;height:160px;border-radius:50%;border:10px solid var(--pink);margin:15px auto;display:flex;flex-direction:column;align-items:center;justify-content:center;color:var(--p)}
-.score-circle strong{font-size:43px}
-.score-circle span{font-size:12px;color:var(--muted)}
-.result-item{padding:15px 0;border-bottom:1px solid #f0e7eb}
-.result-item:last-child{border:0}
-.result-item h3{font-size:14px;margin-bottom:8px}
-.tag{display:inline-block;border-radius:20px;padding:5px 9px;font-size:11px;font-weight:bold;margin-bottom:9px}
-.match{background:#e2f5eb;color:var(--green)}
-.mismatch{background:#fce8ec;color:var(--red)}
-.comparison{font-size:13px;line-height:1.7;color:var(--muted)}
-.bar-bg{height:9px;background:#f1e5ea;border-radius:10px;margin:9px 0 15px;overflow:hidden}
-.bar-fill{height:100%;background:var(--p);border-radius:10px}
-.history-item{border:1px solid #eee1e7;border-radius:13px;padding:14px;margin:10px 0}
-.history-item strong{color:var(--p)}
-.small{font-size:12px;color:var(--muted)}
-footer{text-align:center;color:var(--muted);font-size:11px;padding:30px 0 5px}
+  :root {
+    --primary: #c22b5b;
+    --primary-dark: #8e1c40;
+    --bg: #fdf6f8;
+    --card: #ffffff;
+    --text: #2d1e24;
+    --muted: #6e5a62;
+    --border: #f0d8e0;
+    --success-bg: #e7f7ef;
+    --success-text: #166534;
+    --warn-bg: #fef3c7;
+    --warn-text: #92400e;
+    --danger-bg: #fee2e2;
+    --danger-text: #991b1b;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.5;
+  }
+  header {
+    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+    color: #fff;
+    text-align: center;
+    padding: 32px 16px;
+    box-shadow: 0 4px 12px rgba(142, 28, 64, 0.15);
+  }
+  header h1 { margin: 0; font-size: 28px; letter-spacing: -0.5px; }
+  header p { margin: 6px 0 0; opacity: 0.92; font-size: 15px; }
+  main { max-width: 640px; margin: 20px auto; padding: 0 16px; }
+  .card {
+    background: var(--card);
+    padding: 24px;
+    border-radius: 18px;
+    box-shadow: 0 6px 24px rgba(45, 30, 36, 0.06);
+    margin-bottom: 18px;
+    border: 1px solid var(--border);
+  }
+  h2 { color: var(--primary-dark); margin-top: 0; font-size: 21px; }
+  h3 { font-size: 16px; margin: 18px 0 8px; color: var(--text); }
+  label { font-weight: 600; font-size: 14px; display: block; margin-top: 10px; }
+  input, select {
+    width: 100%;
+    padding: 14px;
+    border: 1.5px solid var(--border);
+    border-radius: 12px;
+    font-size: 16px;
+    margin: 6px 0 14px;
+    background: #fff;
+    color: var(--text);
+  }
+  input:focus, select:focus { outline: none; border-color: var(--primary); }
+  button {
+    width: 100%;
+    padding: 15px;
+    border: 0;
+    border-radius: 12px;
+    background: var(--primary);
+    color: #fff;
+    font-weight: 700;
+    font-size: 16px;
+    margin-top: 10px;
+    cursor: pointer;
+    transition: transform 0.1s, background 0.2s;
+  }
+  button:hover { background: var(--primary-dark); }
+  button:active { transform: scale(0.99); }
+  button.option {
+    background: #fff7fa;
+    color: var(--text);
+    border: 1.5px solid var(--border);
+    text-align: left;
+    font-weight: 500;
+    margin-top: 10px;
+    padding: 14px 16px;
+  }
+  button.option:hover { border-color: var(--primary); background: #ffebf2; }
+  button.secondary { background: #ede4e7; color: var(--text); font-weight: 600; }
+  button.secondary:hover { background: #e0d3d7; }
+  .small { font-size: 13px; color: var(--muted); }
+  .badge-turn {
+    display: inline-block;
+    background: var(--primary);
+    color: #fff;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+  .progress { height: 8px; background: #f3dce4; border-radius: 20px; overflow: hidden; margin: 10px 0; }
+  .progress div { height: 100%; background: var(--primary); width: 0; transition: width 0.25s ease; }
+  .question { font-size: 19px; font-weight: 700; margin: 16px 0; color: var(--text); }
+  .score-box {
+    text-align: center;
+    background: #fff5f8;
+    border: 1.5px solid var(--border);
+    border-radius: 16px;
+    padding: 20px;
+    margin: 16px 0;
+  }
+  .result { font-size: 48px; font-weight: 800; color: var(--primary); line-height: 1.1; }
+  .pillar-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin: 16px 0;
+  }
+  .pillar {
+    background: #fafafa;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 12px;
+  }
+  .pillar-title { font-size: 12px; color: var(--muted); font-weight: 700; text-transform: uppercase; }
+  .pillar-val { font-size: 20px; font-weight: 800; color: var(--primary-dark); }
+  .tag {
+    display: inline-block;
+    padding: 5px 10px;
+    border-radius: 8px;
+    margin: 4px 4px 0 0;
+    font-size: 13px;
+    font-weight: 600;
+  }
+  .tag-ok { background: var(--success-bg); color: var(--success-text); }
+  .tag-mid { background: var(--warn-bg); color: var(--warn-text); }
+  .tag-alert { background: var(--danger-bg); color: var(--danger-text); }
+  .answerline { padding: 14px 0; border-bottom: 1px solid var(--border); }
+  .answerline:last-child { border-bottom: 0; }
+  .talk-box {
+    background: #fff9eb;
+    border-left: 4px solid #d97706;
+    padding: 14px;
+    border-radius: 8px;
+    margin: 16px 0;
+    font-size: 14px;
+  }
+  footer { text-align: center; color: var(--muted); font-size: 12px; padding: 24px 16px; }
+  .hidden { display: none; }
 </style>
 </head>
 <body>
-<div class="app">
+
 <header>
-<div class="logo">❤️</div>
-<h1>CasalSintonia</h1>
-<p>Conhecer, compreender e construir juntos.</p>
+  <h1>💍 Simulador de Casamento</h1>
+  <p>Teste de compatibilidade para a vida real a dois</p>
 </header>
 
-<section id="home" class="screen active">
-<div class="hero">
-<h2>Até onde vocês estão em sintonia?</h2>
-<p>Descubram o quanto combinam nas escolhas, nos planos e na maneira de enxergar um relacionamento.</p>
-</div>
-<div class="card">
-<label class="label">Nome da primeira pessoa</label>
-<input id="name1" maxlength="30" placeholder="Ex.: Juliana">
-<label class="label">Nome da segunda pessoa</label>
-<input id="name2" maxlength="30" placeholder="Ex.: Rafael">
-<button class="btn" onclick="begin()">Começar avaliação ❤️</button>
-</div>
-<div class="features">
-<div class="feature"><div>💞</div><strong>Compatibilidade</strong><span>Compare suas escolhas</span></div>
-<div class="feature"><div>🧠</div><strong>Conhecimento</strong><span>Descubra diferenças</span></div>
-<div class="feature"><div>📊</div><strong>Resultados</strong><span>Veja seus percentuais</span></div>
-<div class="feature"><div>📚</div><strong>Histórico</strong><span>Guarde avaliações</span></div>
-</div>
-<button class="btn light" onclick="showHistory()">Ver histórico de avaliações</button>
-<p class="small" style="text-align:center;margin-top:15px">As respostas ficam salvas somente neste aparelho.</p>
-</section>
+<main>
+  <!-- TELA INICIAL -->
+  <section id="home" class="card">
+    <h2>Vocês estão prontos para dividir o mesmo teto?</h2>
+    <p class="small">Este simulador avalia <b>4 pilares reais do casamento</b>: Finanças, Rotina, Família/Filhos e Afeto, identificando alinhamentos e pontos de atrito.</p>
+    
+    <label for="name1">Nome da Pessoa 1</label>
+    <input id="name1" placeholder="Ex: Ana">
+    
+    <label for="name2">Nome da Pessoa 2</label>
+    <input id="name2" placeholder="Ex: Lucas">
 
-<section id="quiz" class="screen">
-<div class="question-top"><span id="who"></span><span id="step"></span></div>
-<div class="progress"><div class="fill" id="progress"></div></div>
-<h2 class="question" id="question"></h2>
-<div id="options"></div>
-<button class="btn" id="next" disabled onclick="nextQuestion()">Continuar</button>
-</section>
+    <label for="stage">Momento atual do casal</label>
+    <select id="stage">
+      <option value="namoro">Namorando / Pensando em morar junto</option>
+      <option value="noivos">Noivos / Planejando o casamento</option>
+      <option value="casados">Já moramos juntos / Casados</option>
+    </select>
 
-<section id="handoff" class="screen">
-<div class="privacy">
-<div class="icon">🔒</div>
-<h2>Agora é a vez da outra pessoa!</h2>
-<p class="muted" id="handoffText"></p>
-<div class="card"><h3>Privacidade das respostas</h3><p class="muted">As respostas anteriores não serão exibidas. Entregue o aparelho à segunda pessoa antes de continuar.</p></div>
-<button class="btn" onclick="startSecond()">Começar minha avaliação</button>
-</div>
-</section>
+    <button onclick="start()">INICIAR SIMULAÇÃO (20 PERGUNTAS)</button>
+    <p class="small" style="margin-top:12px;">🔒 Privacidade garantida: a Pessoa 1 responde primeiro e passa o celular para a Pessoa 2 sem revelar suas escolhas.</p>
+  </section>
 
-<section id="results" class="screen">
-<div class="score">
-<p class="muted">Resultado de compatibilidade</p>
-<div class="score-circle"><strong id="percentage">0%</strong><span>de sintonia</span></div>
-<h2 id="resultTitle"></h2>
-<p class="muted" id="resultDescription"></p>
-</div>
-<div class="card"><h3>Compatibilidade por categoria</h3><div id="categories"></div></div>
-<div class="card"><h3>Comparação das respostas</h3><div id="details"></div></div>
-<button class="btn" onclick="shareResult()">Compartilhar resultado</button>
-<button class="btn light" onclick="newTest()">Nova avaliação</button>
-<button class="btn outline" onclick="showHistory()">Ver histórico</button>
-</section>
+  <!-- QUIZ -->
+  <section id="quiz" class="card hidden">
+    <span class="badge-turn" id="who"></span>
+    <div class="progress"><div id="bar"></div></div>
+    <div id="counter" class="small"></div>
+    <div id="question" class="question"></div>
+    <div id="options"></div>
+    <button id="back" class="secondary" onclick="previous()">← VOLTAR PERGUNTA</button>
+  </section>
 
-<section id="history" class="screen">
-<h2>Histórico de avaliações</h2>
-<p class="muted">Seus resultados anteriores neste aparelho.</p>
-<div id="historyList"></div>
-<button class="btn light" onclick="show('home')">Voltar ao início</button>
-<button class="btn outline" onclick="clearHistory()">Apagar histórico</button>
-</section>
+  <!-- TROCA DE PESSOA -->
+  <section id="handoff" class="card hidden">
+    <h2>🔒 Etapa 1 concluída!</h2>
+    <p id="handoffText" style="font-size:17px; font-weight:600;"></p>
+    <p class="small">As respostas anteriores foram ocultadas. Entregue o aparelho agora para iniciar a segunda rodada.</p>
+    <button onclick="startSecond()">RESPONDER AGORA</button>
+  </section>
 
-<footer>CasalSintonia · Um espaço para conversar e se conhecer melhor.</footer>
-</div>
+  <!-- RESULTADOS -->
+  <section id="results" class="card hidden">
+    <h2>Diagnóstico do Casamento</h2>
+    <p class="small" id="coupleNames"></p>
+
+    <div class="score-box">
+      <div class="result" id="percentage"></div>
+      <div style="font-weight:700; margin-top:4px;" id="verdictTitle"></div>
+      <p class="small" id="interpretation" style="margin-bottom:0;"></p>
+    </div>
+
+    <h3>Sintonia por Pilar Conjugal</h3>
+    <div class="pillar-grid" id="pillars"></div>
+
+    <div id="talkSection" class="talk-box hidden">
+      <strong>💡 Pauta para o próximo café ou jantar:</strong>
+      <div id="talkTopics" style="margin-top:6px;"></div>
+    </div>
+
+    <h3>🚨 Alertas de Atrito (Opiniões Opostas)</h3>
+    <div id="alerts"></div>
+
+    <h3>⚖️ Pontos Negociáveis (Meio-Termo)</h3>
+    <div id="negotiable"></div>
+
+    <h3>✅ Acordos Naturais (Mesma Visão)</h3>
+    <div id="matches"></div>
+
+    <button onclick="share()">COMPARTILHAR NO WHATSAPP</button>
+    <button class="secondary" onclick="copyReport()">COPIAR RELATÓRIO COMPLETO</button>
+    <button class="secondary" onclick="restart()">NOVA SIMULAÇÃO</button>
+  </section>
+</main>
+
+<footer>Simulador de Casamento • GitHub Pages</footer>
 
 <script>
-const questions=[
-{c:"Futuro",q:"Qual seria o maior sonho de vocês como casal?",o:["Construir uma família","Conquistar estabilidade financeira","Viajar e conhecer o mundo"]},
-{c:"Dinheiro",q:"Como vocês deveriam organizar o dinheiro?",o:["Tudo em conjunto","Dividir proporcionalmente à renda","Cada um administra o próprio dinheiro"]},
-{c:"Família",q:"Qual a frequência ideal para visitar os familiares?",o:["Toda semana","A cada quinze dias","Em datas especiais"]},
-{c:"Convivência",q:"Como dividir as tarefas domésticas?",o:["Divisão igualitária","Cada um faz o que consegue","Contratar alguém para ajudar"]},
-{c:"Confiança",q:"Como lidar com a privacidade do celular?",o:["Compartilhar senhas","Cada um tem sua privacidade","Combinar regras de transparência"]},
-{c:"Filhos",q:"Qual a visão de vocês sobre ter filhos?",o:["Queremos ter filhos","Ainda precisamos planejar","Não queremos ter filhos"]},
-{c:"Lazer",q:"Como seria o final de semana perfeito?",o:["Fazer tudo juntos","Um dia juntos e outro individual","Cada um escolhe sua programação"]},
-{c:"Conflitos",q:"Quando surge uma discussão, o que fazer?",o:["Conversar imediatamente","Esperar esfriar a cabeça","Conversar depois de refletir"]},
-{c:"Fidelidade",q:"O que representa fidelidade?",o:["Exclusividade física e emocional","Respeitar os acordos do casal","Transparência e confiança acima de tudo"]},
-{c:"Carreira",q:"Se surgir uma oportunidade em outra cidade?",o:["Mudar juntos","Avaliar os benefícios","Permanecer onde estamos"]},
-{c:"Romance",q:"Qual a importância do romantismo?",o:["Demonstrações frequentes","Pequenos gestos no cotidiano","Não é prioridade para mim"]},
-{c:"Amizades",q:"Como equilibrar amizades e relacionamento?",o:["Priorizar atividades juntos","Equilibrar os dois","Manter bastante independência"]},
-{c:"Moradia",q:"Qual seria o melhor plano de moradia?",o:["Comprar imóvel próprio","Alugar e ter liberdade","Construir ou morar em outro lugar"]},
-{c:"Comunicação",q:"Como vocês preferem resolver problemas?",o:["Conversar abertamente","Pensar antes de falar","Resolver aos poucos"]},
-{c:"Envelhecimento",q:"Como imaginam a vida daqui a 20 anos?",o:["Família e estabilidade","Liberdade e experiências","Novos projetos e conquistas"]}
+const questions = [
+  { p: "Finanças", q: "Como será a conta bancária e o pagamento das contas da casa?", a: ["Conta conjunta total (tudo é nosso)", "Contas separadas + divisão proporcional", "Cada um paga contas específicas"], m: [[2,1,0],[1,2,1],[0,1,2]] },
+  { p: "Finanças", q: "Sobrou um dinheiro extra no fim do mês. Qual a prioridade?", a: ["Investir / Reserva de emergência", "Viajar ou aproveitar experiências juntos", "Comprar algo para casa ou uso pessoal"], m: [[2,1,0],[1,2,1],[0,1,2]] },
+  { p: "Finanças", q: "Compras individuais mais caras (ex: celular, roupa, hobby) devem ser avisadas antes?", a: ["Sim, acima de um valor combinado", "Apenas se afetar o orçamento da casa", "Não, cada um gasta o seu livremente"], m: [[2,1,0],[1,2,1],[0,1,2]] },
+  { p: "Finanças", q: "Se um dos dois perder o emprego ou ganhar bem menos, como fica o padrão de vida?", a: ["Quem ganha mais segura as pontas sem cobrança", "Reduzimos custos juntos imediatamente", "Mantemos divisões próximas ao combinado"], m: [[2,1,0],[1,2,0],[0,0,2]] },
+  { p: "Finanças", q: "Qual a visão sobre dívidas e cartão de crédito?", a: ["Zero parcelamentos, só à vista", "Parcelo coisas maiores com planejamento", "Uso crédito com frequência no dia a dia"], m: [[2,1,0],[1,2,1],[0,1,2]] },
+
+  { p: "Família", q: "Qual é o plano definitivo sobre ter filhos?", a: ["Com certeza queremos ter", "Não queremos ter filhos", "Talvez no futuro, sem pressão"], m: [[2,0,1],[0,2,0],[1,0,2]] },
+  { p: "Família", q: "Qual o limite de participação de pais e sogros na rotina do casal?", a: ["Visitas frequentes e porta sempre aberta", "Convivência próxima, mas com privacidade", "Cada família no seu espaço, encontros eventuais"], m: [[2,1,0],[1,2,1],[0,1,2]] },
+  { p: "Família", q: "Onde passar datas comemorativas (Natal, Ano Novo, feriados)?", a: ["Revezar entre as duas famílias", "Sempre reunir todo mundo junto", "Criar nossas próprias tradições a dois"], m: [[2,1,1],[1,2,0],[1,0,2]] },
+  { p: "Família", q: "Na educação dos filhos (ou pets), quem dá a palavra final?", a: ["Sempre alinhados antes, nunca um desautoriza o outro", "Quem estiver mais presente no momento decide", "Dividimos temas (ex: um cuida da rotina, outro da escola)"], m: [[2,1,1],[1,2,1],[1,1,2]] },
+  { p: "Família", q: "Se surgir uma ótima oportunidade de trabalho em outra cidade ou país:", a: ["Vamos juntos, o casal se adapta", "Só vamos se for bom para a carreira dos dois", "Dificilmente abriria mão da minha base atual"], m: [[2,1,0],[1,2,0],[0,0,2]] },
+
+  { p: "Rotina", q: "Como funcionará a limpeza e organização da casa no dia a dia?", a: ["Divisão igualitária das tarefas", "Quem tem mais tempo livre faz mais", "Contratar ajuda externa sempre que possível"], m: [[2,1,1],[1,2,1],[1,1,2]] },
+  { p: "Rotina", q: "Qual seu nível de tolerância com bagunça dentro de casa?", a: ["Gosto de tudo impecável todos os dias", "Organizado no geral, bagunça leve não incomoda", "Sou bem relaxado, arrumo só quando dá"], m: [[2,1,0],[1,2,1],[0,1,2]] },
+  { p: "Rotina", q: "Como deve ser o fim de semana ideal do casal?", a: ["Caseiro: descanso, séries e comida em casa", "Social: sair com amigos, bares e passeios", "Um dia para sair e outro para descansar"], m: [[2,0,1],[0,2,1],[1,1,2]] },
+  { p: "Rotina", q: "E o tempo individual (hobbies, sair sozinho com amigos, jogar, treinar)?", a: ["Essencial: cada um precisa do seu espaço semanal", "Saudável, desde que não atrapalhe o tempo juntos", "Prefiro fazer quase tudo na companhia um do outro"], m: [[2,1,0],[1,2,1],[0,1,2]] },
+  { p: "Rotina", q: "Qual o hábito na hora de dormir?", a: ["Dormir no mesmo horário e quarto sempre", "Horários diferentes, mas dormimos juntos", "Priorizo qualidade do sono (até quartos/camas separadas se precisar)"], m: [[2,1,0],[1,2,1],[0,1,2]] },
+
+  { p: "Afeto", q: "Quando houver uma briga séria no casamento, qual a regra de ouro?", a: ["Nunca dormir brigados, resolver na hora", "Dar um tempo para esfriar a cabeça e falar depois", "Pedir desculpas rápido e seguir em frente"], m: [[2,1,1],[1,2,1],[1,1,2]] },
+  { p: "Afeto", q: "Como manter o romance e a vida íntima ativos após anos juntos?", a: ["Programar encontros e momentos a dois na agenda", "Deixar fluir naturalmente conforme o clima", "Surpresas e gestos pequenos no cotidiano"], m: [[2,1,1],[1,2,1],[1,1,2]] },
+  { p: "Afeto", q: "O que você considera inaceitável e quebra de confiança?", a: ["Mentiras e omissões, mesmo as pequenas", "Falta de respeito e exposição pública do casal", "Frieza, distanciamento e falta de parceria"], m: [[2,1,1],[1,2,1],[1,1,2]] },
+  { p: "Afeto", q: "Como lidar com o uso de celular e redes sociais em casa?", a: ["Sem celular na mesa e antes de dormir", "Uso livre, sem neuras", "Transparência total e senhas compartilhadas"], m: [[2,1,1],[1,2,0],[1,0,2]] },
+  { p: "Afeto", q: "O que define um casamento de sucesso para você?", a: ["Parceria, amizade e leveza no dia a dia", "Estabilidade, segurança e construção de patrimônio", "Paixão, admiração e conexão emocional"], m: [[2,1,1],[1,2,1],[1,1,2]] }
 ];
 
-let names=[];
-let answers=[[],[]];
-let participant=0;
-let current=0;
-let selected=null;
-let lastResult=null;
+let names = ["", ""], answers = [[], []], person = 0, index = 0, stage = "namoro";
 
-function show(id){
-document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));
-document.getElementById(id).classList.add("active");
-window.scrollTo(0,0);
+function show(id) {
+  ["home", "quiz", "handoff", "results"].forEach(x => document.getElementById(x).classList.add("hidden"));
+  document.getElementById(id).classList.remove("hidden");
+  window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
-function begin(){
-const a=document.getElementById("name1").value.trim();
-const b=document.getElementById("name2").value.trim();
-if(!a||!b){alert("Informe os dois nomes.");return;}
-if(a.toLowerCase()===b.toLowerCase()){alert("Informe dois nomes diferentes.");return;}
-names=[a,b];answers=[[],[]];participant=0;current=0;
-renderQuestion();show("quiz");
+function start() {
+  names[0] = document.getElementById("name1").value.trim() || "Pessoa 1";
+  names[1] = document.getElementById("name2").value.trim() || "Pessoa 2";
+  stage = document.getElementById("stage").value;
+  if (names[0].toLowerCase() === names[1].toLowerCase()) {
+    alert("Use nomes ou apelidos diferentes para identificar cada pessoa.");
+    return;
+  }
+  answers = [[], []];
+  person = 0;
+  index = 0;
+  render();
 }
 
-function renderQuestion(){
-selected=null;
-const q=questions[current];
-document.getElementById("who").textContent="Vez de "+names[participant];
-document.getElementById("step").textContent=`Pergunta ${current+1}/${questions.length}`;
-document.getElementById("progress").style.width=((current+1)/questions.length*100)+"%";
-document.getElementById("question").textContent=q.q;
-document.getElementById("next").disabled=true;
-document.getElementById("next").textContent=current===questions.length-1?"Finalizar respostas":"Continuar";
-const box=document.getElementById("options");
-box.innerHTML="";
-q.o.forEach((option,index)=>{
-const button=document.createElement("button");
-button.className="option";
-button.textContent=option;
-button.onclick=()=>{
-selected=index;
-box.querySelectorAll("button").forEach(b=>b.classList.remove("selected"));
-button.classList.add("selected");
-document.getElementById("next").disabled=false;
-};
-box.appendChild(button);
-});
+function render() {
+  show("quiz");
+  const q = questions[index];
+  document.getElementById("who").textContent = `Vez de ${names[person]} • Pilar: ${q.p}`;
+  document.getElementById("counter").textContent = `Pergunta ${index + 1} de ${questions.length}`;
+  document.getElementById("bar").style.width = `${((index + 1) / questions.length) * 100}%`;
+  document.getElementById("question").textContent = q.q;
+
+  const options = document.getElementById("options");
+  options.innerHTML = "";
+  q.a.forEach((answer, i) => {
+    const btn = document.createElement("button");
+    btn.className = "option";
+    btn.textContent = answer;
+    btn.onclick = () => choose(i);
+    options.appendChild(btn);
+  });
+  document.getElementById("back").style.display = index === 0 ? "none" : "block";
 }
 
-function nextQuestion(){
-if(selected===null)return;
-answers[participant][current]=selected;
-if(current<questions.length-1){current++;renderQuestion();return;}
-if(participant===0){
-participant=1;current=0;
-document.getElementById("handoffText").textContent=names[1]+", agora responda às mesmas perguntas. Não veja as respostas da primeira pessoa.";
-show("handoff");
-}else{calculate();}
+function choose(value) {
+  answers[person][index] = value;
+  if (index < questions.length - 1) {
+    index++;
+    render();
+    return;
+  }
+  if (person === 0) {
+    document.getElementById("handoffText").textContent = `${names[1]}, agora é sua vez de responder às 20 situações.`;
+    show("handoff");
+  } else {
+    results();
+  }
 }
 
-function startSecond(){current=0;renderQuestion();show("quiz");}
+function startSecond() { person = 1; index = 0; render(); }
+function previous() { if (index > 0) { index--; render(); } }
 
-function calculate(){
-let matches=0;
-const category={};
-const detail=document.getElementById("details");
-detail.innerHTML="";
-questions.forEach((q,i)=>{
-const same=answers[0][i]===answers[1][i];
-if(same)matches++;
-if(!category[q.c])category[q.c]={total:0,match:0};
-category[q.c].total++;
-if(same)category[q.c].match++;
-const item=document.createElement("div");
-item.className="result-item";
-const title=document.createElement("h3");
-title.textContent=(i+1)+". "+q.q;
-const tag=document.createElement("span");
-tag.className="tag "+(same?"match":"mismatch");
-tag.textContent=same?"✓ Mesma escolha":"↔ Escolhas diferentes";
-const comparison=document.createElement("div");
-comparison.className="comparison";
-comparison.textContent=names[0]+": "+q.o[answers[0][i]]+" | "+names[1]+": "+q.o[answers[1][i]];
-item.append(title,tag,comparison);
-detail.appendChild(item);
-});
-const percent=Math.round(matches/questions.length*100);
-document.getElementById("percentage").textContent=percent+"%";
-let title,description;
-if(percent>=80){title="Grande sintonia!";description="Vocês compartilham muitas escolhas. Aproveitem para conhecer ainda mais as diferenças.";}
-else if(percent>=60){title="Boa conexão!";description="Existem várias afinidades e alguns assuntos interessantes para conversar.";}
-else if(percent>=40){title="Sintonia em construção!";description="Vocês têm pontos em comum e perspectivas diferentes. O diálogo pode aproximar.";}
-else{title="Muitas perspectivas!";description="Vocês enxergam algumas situações de maneiras diferentes. Isso pode render boas conversas.";}
-document.getElementById("resultTitle").textContent=title;
-document.getElementById("resultDescription").textContent=description;
-const cat=document.getElementById("categories");
-cat.innerHTML="";
-Object.entries(category).forEach(([name,data])=>{
-const p=Math.round(data.match/data.total*100);
-const line=document.createElement("div");
-line.style.marginTop="15px";
-const label=document.createElement("div");
-label.style.display="flex";label.style.justifyContent="space-between";label.style.fontSize="13px";
-const left=document.createElement("strong");left.textContent=name;
-const right=document.createElement("span");right.textContent=p+"%";
-label.append(left,right);
-const bg=document.createElement("div");bg.className="bar-bg";
-const fill=document.createElement("div");fill.className="bar-fill";fill.style.width=p+"%";
-bg.appendChild(fill);line.append(label,bg);cat.appendChild(line);
-});
-lastResult={names:[...names],percent,matches,total:questions.length,date:new Date().toLocaleString("pt-BR")};
-saveHistory(lastResult);show("results");
+function results() {
+  show("results");
+  let totalPoints = 0;
+  const maxPoints = questions.length * 2;
+  const pillarScores = { Finanças: [0, 0], Família: [0, 0], Rotina: [0, 0], Afeto: [0, 0] };
+  const exact = [], mid = [], alerts = [];
+
+  questions.forEach((q, i) => {
+    const a1 = answers[0][i];
+    const a2 = answers[1][i];
+    const score = q.m[a1][a2];
+    totalPoints += score;
+    pillarScores[q.p][0] += score;
+    pillarScores[q.p][1] += 2;
+
+    if (score === 2) exact.push(i);
+    else if (score === 1) mid.push(i);
+    else alerts.push(i);
+  });
+
+  const pct = Math.round((totalPoints / maxPoints) * 100);
+  const stageLabel = stage === "namoro" ? "Fase: Namoro" : stage === "noivos" ? "Fase: Noivado" : "Fase: Casados / Morando juntos";
+  document.getElementById("coupleNames").textContent = `${names[0]} & ${names[1]} • ${stageLabel}`;
+  document.getElementById("percentage").textContent = `${pct}%`;
+
+  let title = "", desc = "";
+  if (pct >= 82) {
+    title = "Casamento Blindado!";
+    desc = "Vocês têm uma base extremamente alinhada nos valores centrais. As poucas diferenças são fáceis de ajustar no diálogo.";
+  } else if (pct >= 62) {
+    title = "Boa Base com Ajustes Necessários";
+    desc = "Existe muita compatibilidade, mas alguns temas práticos pedem acordos claros antes de virarem desgaste na rotina.";
+  } else {
+    title = "Alerta de Negociação Conjugal";
+    desc = "Vocês enxergam pilares importantes de formas bem distintas. Não impede o sucesso, mas exige conversas francas e concessões reais.";
+  }
+  document.getElementById("verdictTitle").textContent = title;
+  document.getElementById("interpretation").textContent = desc;
+
+  // Pilares
+  const pillarsEl = document.getElementById("pillars");
+  pillarsEl.innerHTML = Object.entries(pillarScores).map(([name, [pts, max]]) => {
+    const pPct = Math.round((pts / max) * 100);
+    return `<div class="pillar"><div class="pillar-title">${name}</div><div class="pillar-val">${pPct}%</div></div>`;
+  }).join("");
+
+  // Sugestões de conversa
+  const talkTopics = [...alerts, ...mid].slice(0, 3);
+  if (talkTopics.length) {
+    document.getElementById("talkSection").classList.remove("hidden");
+    document.getElementById("talkTopics").innerHTML = talkTopics.map(i => `• <b>${questions[i].p}:</b> ${questions[i].q}`).join("<br>");
+  } else {
+    document.getElementById("talkSection").classList.add("hidden");
+  }
+
+  // Render listas
+  document.getElementById("alerts").innerHTML = alerts.length
+    ? alerts.map(i => renderDiff(i, "tag-alert")).join("")
+    : `<p class="small">Nenhum choque crítico encontrado. Excelente sinal!</p>`;
+
+  document.getElementById("negotiable").innerHTML = mid.length
+    ? mid.map(i => renderDiff(i, "tag-mid")).join("")
+    : `<p class="small">Nenhuma resposta intermediária.</p>`;
+
+  document.getElementById("matches").innerHTML = exact.length
+    ? exact.map(i => `<div class="answerline"><b>${questions[i].p}</b> — ${questions[i].q}<br><span class="tag tag-ok">Ambos: ${questions[i].a[answers[0][i]]}</span></div>`).join("")
+    : `<p class="small">Nenhuma resposta idêntica desta vez.</p>`;
 }
 
-function saveHistory(result){
-let history=JSON.parse(localStorage.getItem("casalHistory")||"[]");
-history.unshift(result);
-localStorage.setItem("casalHistory",JSON.stringify(history.slice(0,30)));
+function renderDiff(i, tagClass) {
+  const q = questions[i];
+  return `<div class="answerline">
+    <b>${q.p}</b> — ${q.q}<br>
+    <span class="tag ${tagClass}">${names[0]}: ${q.a[answers[0][i]]}</span><br>
+    <span class="tag ${tagClass}">${names[1]}: ${q.a[answers[1][i]]}</span>
+  </div>`;
 }
 
-function showHistory(){
-const list=document.getElementById("historyList");
-list.innerHTML="";
-const history=JSON.parse(localStorage.getItem("casalHistory")||"[]");
-if(!history.length){list.textContent="Nenhuma avaliação realizada ainda.";}
-else{history.forEach(item=>{
-const card=document.createElement("div");card.className="history-item";
-const title=document.createElement("strong");title.textContent=item.names.join(" + ");
-const score=document.createElement("p");score.textContent=item.percent+"% de sintonia";
-const date=document.createElement("span");date.className="small";date.textContent=item.date;
-card.append(title,score,date);list.appendChild(card);
-});}
-show("history");
+function buildSummaryText() {
+  const pct = document.getElementById("percentage").textContent;
+  const title = document.getElementById("verdictTitle").textContent;
+  const pillars = Array.from(document.querySelectorAll(".pillar")).map(el => `${el.children[0].textContent}: ${el.children[1].textContent}`).join(" | ");
+  return `💍 *Simulador de Casamento*\n${names[0]} & ${names[1]}\nResultado: *${pct}* (${title})\n📊 ${pillars}\n\nFaça o teste você também: ${window.location.href}`;
 }
 
-function clearHistory(){
-if(!confirm("Deseja apagar todo o histórico deste aparelho?"))return;
-localStorage.removeItem("casalHistory");showHistory();
+function share() {
+  window.open("https://wa.me/?text=" + encodeURIComponent(buildSummaryText()), "_blank");
 }
 
-function shareResult(){
-if(!lastResult)return;
-const text=`❤️ CasalSintonia\n${lastResult.names.join(" e ")}\nResultado: ${lastResult.percent}% de sintonia!\n${lastResult.matches} escolhas iguais em ${lastResult.total} perguntas.`;
-if(navigator.share){navigator.share({title:"Nosso resultado CasalSintonia",text}).catch(()=>{});}
-else if(navigator.clipboard){navigator.clipboard.writeText(text).then(()=>alert("Resultado copiado!"));}
-else{alert(text);}
+function copyReport() {
+  navigator.clipboard.writeText(buildSummaryText()).then(() => alert("Resumo copiado para a área de transferência!"));
 }
 
-function newTest(){
-names=[];answers=[[],[]];participant=0;current=0;lastResult=null;
-document.getElementById("name1").value="";
-document.getElementById("name2").value="";
-show("home");
+function restart() {
+  show("home");
+  document.getElementById("name1").value = "";
+  document.getElementById("name2").value = "";
 }
 </script>
 </body>
