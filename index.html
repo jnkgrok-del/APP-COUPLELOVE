@@ -39,6 +39,44 @@
   header h1 { margin: 0; font-size: 28px; letter-spacing: -0.5px; }
   header p { margin: 6px 0 0; opacity: 0.92; font-size: 15px; }
   main { max-width: 640px; margin: 20px auto; padding: 0 16px; }
+  
+  /* Galeria de Casais Diversos */
+  .couple-gallery {
+    display: flex;
+    gap: 10px;
+    overflow-x: auto;
+    padding: 4px 0 16px 0;
+    scrollbar-width: none;
+  }
+  .couple-gallery::-webkit-scrollbar { display: none; }
+  .couple-card {
+    min-width: 110px;
+    height: 90px;
+    border-radius: 12px;
+    overflow: hidden;
+    flex-shrink: 0;
+    border: 2px solid var(--border);
+    position: relative;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+  }
+  .couple-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .couple-label {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(0,0,0,0.6);
+    color: #fff;
+    font-size: 10px;
+    text-align: center;
+    padding: 2px;
+    font-weight: 600;
+  }
+
   .card {
     background: var(--card);
     padding: 24px;
@@ -161,8 +199,28 @@
   <!-- TELA INICIAL -->
   <section id="home" class="card">
     <h2>Vocês estão prontos para dividir o mesmo teto?</h2>
-    <p class="small">Este simulador avalia <b>4 pilares reais do casamento</b>: Finanças, Rotina, Família/Filhos e Afeto, identificando alinhamentos e pontos de atrito.</p>
+    <p class="small">Este simulador acolhe e avalia <b>todos os tipos de casais</b> em 4 pilares reais: Finanças, Rotina, Família/Filhos e Afeto.</p>
     
+    <!-- Galeria Visual Inclusiva de Casais -->
+    <div class="couple-gallery">
+      <div class="couple-card">
+        <img src="https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?auto=format&fit=crop&w=300&q=80" alt="Casal">
+        <div class="couple-label">Homem & Mulher</div>
+      </div>
+      <div class="couple-card">
+        <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=300&q=80" alt="Casal">
+        <div class="couple-label">Mulher & Mulher</div>
+      </div>
+      <div class="couple-card">
+        <img src="https://images.unsplash.com/photo-1581338834647-b0fb4070fa52?auto=format&fit=crop&w=300&q=80" alt="Casal">
+        <div class="couple-label">Homem & Homem</div>
+      </div>
+      <div class="couple-card">
+        <img src="https://images.unsplash.com/photo-1522529599102-193c0d76b5b6?auto=format&fit=crop&w=300&q=80" alt="Casal">
+        <div class="couple-label">Conexão Real</div>
+      </div>
+    </div>
+
     <label for="name1">Nome da Pessoa 1</label>
     <input id="name1" placeholder="Ex: Ana">
     
