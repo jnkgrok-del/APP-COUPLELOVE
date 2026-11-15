@@ -7,180 +7,113 @@
 <title>CoupleLove — CasalSintonia</title>
 
 <style>
-:root {
-  --pink:#ed75a8;
-  --purple:#8056b5;
-  --dark:#24152e;
-  --light:#fff7fb;
-  --muted:#8a788b;
+:root{
+--pink:#ed75a8;
+--purple:#8056b5;
+--dark:#24152e;
+--light:#fff7fb;
+--muted:#8a788b;
 }
 *{box-sizing:border-box}
 body{
-  margin:0;
-  background:#f8f3f8;
-  color:var(--dark);
-  font-family:Arial,sans-serif;
+margin:0;background:#f8f3f8;color:var(--dark);
+font-family:Arial,sans-serif
 }
 button,input{font:inherit}
 .app{
-  max-width:520px;
-  min-height:100vh;
-  margin:auto;
-  background:white;
-  padding:17px;
-  overflow:hidden;
+max-width:520px;min-height:100vh;margin:auto;
+background:white;padding:17px;overflow:hidden
 }
 header{text-align:center}
 .brand{
-  color:var(--pink);
-  font-weight:800;
-  font-size:25px;
-  letter-spacing:1px;
+color:var(--pink);font-weight:800;font-size:25px;
+letter-spacing:1px
 }
-h1{
-  margin:5px 0;
-  font-size:27px;
-}
-.subtitle{
-  color:var(--muted);
-  font-size:13px;
-}
+h1{margin:5px 0;font-size:27px}
+.subtitle{color:var(--muted);font-size:13px}
 .photos{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:8px;
-  margin:17px 0;
+display:grid;grid-template-columns:repeat(3,1fr);
+gap:8px;margin:17px 0
 }
 .photo{
-  height:125px;
-  position:relative;
-  overflow:hidden;
-  border-radius:13px;
-  background:#eee0eb;
+height:145px;overflow:hidden;border-radius:13px;
+background:#eee0eb
 }
 .photo img{
-  width:100%;
-  height:100%;
-  object-fit:cover;
-}
-.photo span{
-  position:absolute;
-  bottom:0;
-  left:0;
-  right:0;
-  background:#24152ed9;
-  color:white;
-  text-align:center;
-  font-size:10px;
-  padding:6px 2px;
+width:100%;height:100%;object-fit:cover;display:block
 }
 .card{
-  background:var(--light);
-  border-radius:17px;
-  padding:19px;
-  margin:12px 0;
+background:var(--light);border-radius:17px;
+padding:19px;margin:12px 0
 }
 h2{font-size:19px;margin:0 0 10px}
 p{line-height:1.5}
 .muted{color:var(--muted);font-size:13px}
+label{display:block;margin-top:16px;font-weight:600}
 input{
-  width:100%;
-  padding:14px;
-  border:1px solid #e6d5e5;
-  border-radius:11px;
-  margin:7px 0;
-  background:white;
+width:100%;padding:14px;border:1px solid #e6d5e5;
+border-radius:11px;margin:7px 0;background:white
 }
 button{
-  border:0;
-  cursor:pointer;
-  border-radius:12px;
-  padding:14px;
-  font-weight:bold;
+border:0;cursor:pointer;border-radius:12px;
+padding:14px;font-weight:bold
 }
 .primary{
-  background:linear-gradient(100deg,var(--pink),var(--purple));
-  color:white;
-  width:100%;
+background:linear-gradient(100deg,var(--pink),var(--purple));
+color:white;width:100%
 }
-.secondary{
-  background:#f0e6f1;
-  color:var(--dark);
-}
+.secondary{background:#f0e6f1;color:var(--dark)}
 button:disabled{opacity:.4}
 .progress{
-  height:8px;
-  background:#eee4ed;
-  border-radius:20px;
-  overflow:hidden;
-  margin:12px 0;
+height:8px;background:#eee4ed;border-radius:20px;
+overflow:hidden;margin:12px 0
 }
 .progress div{
-  height:100%;
-  background:linear-gradient(90deg,var(--pink),var(--purple));
+height:100%;background:linear-gradient(90deg,var(--pink),var(--purple))
 }
 .category{
-  color:var(--purple);
-  font-size:12px;
-  font-weight:bold;
-  text-transform:uppercase;
+color:var(--purple);font-size:12px;font-weight:bold;
+text-transform:uppercase
 }
 .question{
-  font-size:20px;
-  line-height:1.4;
-  font-weight:bold;
-  margin:17px 0;
+font-size:20px;line-height:1.4;font-weight:bold;
+margin:17px 0
 }
-.answers{
-  display:grid;
-  gap:9px;
-}
+.answers{display:grid;gap:9px}
 .answer{
-  background:white;
-  border:1px solid #eadbea;
-  text-align:left;
-  color:var(--dark);
+background:white;border:1px solid #eadbea;
+text-align:left;color:var(--dark)
 }
 .answer.selected{
-  border:2px solid var(--pink);
-  background:#fff0f7;
+border:2px solid var(--pink);background:#fff0f7
 }
-.row{
-  display:flex;
-  gap:9px;
-  margin-top:15px;
-}
+.row{display:flex;gap:9px;margin-top:15px}
 .row button{flex:1}
 .center{text-align:center}
 .big{
-  font-size:53px;
-  font-weight:900;
-  color:var(--purple);
-  margin:15px 0;
+font-size:53px;font-weight:900;color:var(--purple);
+margin:15px 0
 }
 .barline{
-  display:flex;
-  justify-content:space-between;
-  font-size:13px;
-  margin:13px 0 5px;
+display:flex;justify-content:space-between;
+font-size:13px;margin:13px 0 5px
 }
 .bar{
-  height:11px;
-  background:#eee5ef;
-  border-radius:20px;
-  overflow:hidden;
+height:11px;background:#eee5ef;border-radius:20px;
+overflow:hidden
 }
 .bar div{
-  height:100%;
-  background:linear-gradient(90deg,var(--pink),var(--purple));
+height:100%;background:linear-gradient(90deg,var(--pink),var(--purple))
 }
 .hidden{display:none!important}
 .logoheart{color:var(--pink);font-size:30px}
 .footer{
-  text-align:center;
-  color:#a18ca1;
-  font-size:11px;
-  margin:24px 0 10px;
+text-align:center;color:#a18ca1;font-size:11px;
+margin:24px 0 10px
+}
+@media(max-width:380px){
+.photo{height:115px}
+.app{padding:13px}
 }
 </style>
 </head>
@@ -189,151 +122,139 @@ button:disabled{opacity:.4}
 <main class="app">
 
 <header>
-  <div class="brand">CoupleLove ♥</div>
-  <h1>CasalSintonia</h1>
-  <div class="subtitle">
-    Toda história de amor merece ser descoberta.
-  </div>
+<div class="brand">CoupleLove ♥</div>
+<h1>CasalSintonia</h1>
+<div class="subtitle">
+Toda história de amor merece ser descoberta.
+</div>
 </header>
 
-<!-- FOTOS PERMANENTES -->
+<!-- TRÊS FOTOS SEM LEGENDAS -->
 <div class="photos">
-  <div class="photo">
-    <img src="https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?w=400"
-    alt="Casal de homens">
-    <span>Amor entre homens</span>
-  </div>
-  <div class="photo">
-    <img src="https://images.unsplash.com/photo-1511895426328-dc8714191300?w=400"
-    alt="Casal de mulheres">
-    <span>Amor entre mulheres</span>
-  </div>
-  <div class="photo">
-    <img src="https://images.unsplash.com/photo-1522673607200-164d1b6ce486?w=400"
-    alt="Casal homem e mulher">
-    <span>Amor entre homem e mulher</span>
-  </div>
+<div class="photo">
+<img src="https://images.unsplash.com/photo-1650550740143-31d5649a39b5?auto=format&fit=crop&w=600&q=85"
+alt="Dois homens juntos">
+</div>
+<div class="photo">
+<img src="https://images.unsplash.com/photo-1609150996011-63c238b520fa?auto=format&fit=crop&w=600&q=85"
+alt="Duas mulheres juntas">
+</div>
+<div class="photo">
+<img src="https://images.unsplash.com/photo-1504194569341-48a2e831a3a7?auto=format&fit=crop&w=600&q=85"
+alt="Homem e mulher juntos">
+</div>
 </div>
 
-<!-- INÍCIO -->
 <section id="inicio">
-  <div class="card">
-    <h2>Descubram a sintonia de vocês ❤️</h2>
-    <p class="muted">
-      São 100 perguntas sobre amor, sentimentos,
-      convivência, confiança, intimidade e futuro.
-      Cada pessoa responde individualmente.
-    </p>
+<div class="card">
+<h2>Descubram a sintonia de vocês ❤️</h2>
+<p class="muted">
+São 100 perguntas sobre amor, sentimentos,
+convivência, confiança, intimidade e futuro.
+Cada pessoa responde individualmente.
+</p>
 
-    <label>Nome do primeiro participante</label>
-    <input id="name1" maxlength="20" placeholder="Ex.: Alex">
+<label>Nome do primeiro participante</label>
+<input id="name1" maxlength="20" placeholder="Ex.: Alex">
 
-    <label>Nome do segundo participante</label>
-    <input id="name2" maxlength="20" placeholder="Ex.: Sam">
+<label>Nome do segundo participante</label>
+<input id="name2" maxlength="20" placeholder="Ex.: Sam">
 
-    <button class="primary" onclick="start()">
-      Começar nossa experiência ❤️
-    </button>
-  </div>
-  <div class="center muted">
-    Sem cadastro. Sem login. Sem pareamento.
-  </div>
+<button class="primary" onclick="start()">
+Começar nossa experiência ❤️
+</button>
+</div>
+<div class="center muted">
+Sem cadastro. Sem login. Sem pareamento.
+</div>
 </section>
 
-<!-- PERGUNTAS -->
 <section id="quiz" class="hidden">
-  <div class="card">
-    <div class="category" id="who"></div>
-    <div class="barline">
-      <span id="categoryName"></span>
-      <span id="counter"></span>
-    </div>
-    <div class="progress"><div id="progress"></div></div>
-
-    <div class="question" id="question"></div>
-    <div class="answers" id="answers"></div>
-
-    <div class="row">
-      <button class="secondary" onclick="previous()">Voltar</button>
-      <button class="primary" id="next" onclick="next()" disabled>
-        Próxima
-      </button>
-    </div>
-  </div>
+<div class="card">
+<div class="category" id="who"></div>
+<div class="barline">
+<span id="categoryName"></span>
+<span id="counter"></span>
+</div>
+<div class="progress"><div id="progress"></div></div>
+<div class="question" id="question"></div>
+<div class="answers" id="answers"></div>
+<div class="row">
+<button class="secondary" onclick="previous()">Voltar</button>
+<button class="primary" id="next" onclick="next()" disabled>
+Próxima
+</button>
+</div>
+</div>
 </section>
 
-<!-- TROCA DE PARTICIPANTE -->
 <section id="handoff" class="hidden">
-  <div class="card center">
-    <div class="logoheart">♥</div>
-    <h2>Agora é a vez de outra pessoa!</h2>
-    <p id="handoffText"></p>
-    <p class="muted">
-      As respostas anteriores estão ocultas.
-      Não tente olhar as respostas do outro participante.
-    </p>
-    <button class="primary" onclick="beginSecond()">
-      Estou pronto(a)!
-    </button>
-  </div>
+<div class="card center">
+<div class="logoheart">♥</div>
+<h2>Agora é a vez de outra pessoa!</h2>
+<p id="handoffText"></p>
+<p class="muted">
+As respostas anteriores estão ocultas.
+Entregue o celular sem mostrar suas respostas.
+</p>
+<button class="primary" onclick="beginSecond()">
+Estou pronto(a)!
+</button>
+</div>
 </section>
 
-<!-- RESULTADO -->
 <section id="results" class="hidden">
-  <div class="card center">
-    <div class="logoheart">♥</div>
-    <h2>Resultado do casal</h2>
-    <p id="coupleNames"></p>
-    <div class="big" id="totalScore">0%</div>
-    <strong>Sintonia geral</strong>
-    <p id="resultMessage"></p>
-  </div>
+<div class="card center">
+<div class="logoheart">♥</div>
+<h2>Resultado do casal</h2>
+<p id="coupleNames"></p>
+<div class="big" id="totalScore">0%</div>
+<strong>Sintonia geral</strong>
+<p id="resultMessage"></p>
+</div>
 
-  <div class="card">
-    <h2>Relatório de compatibilidade</h2>
-    <p class="muted">
-      Veja como vocês se aproximam em cada dimensão.
-    </p>
-    <div id="categoryResults"></div>
-  </div>
+<div class="card">
+<h2>Relatório de compatibilidade</h2>
+<p class="muted">
+Veja como vocês se aproximam em cada dimensão.
+</p>
+<div id="categoryResults"></div>
+</div>
 
-  <div class="card">
-    <h2>Onde vocês mais combinam?</h2>
-    <div id="strengths"></div>
-    <h2 style="margin-top:20px">Onde podem se conhecer melhor?</h2>
-    <div id="differences"></div>
-  </div>
+<div class="card">
+<h2>Onde vocês mais combinam?</h2>
+<div id="strengths"></div>
+<h2 style="margin-top:20px">Onde podem se conhecer melhor?</h2>
+<div id="differences"></div>
+</div>
 
-  <button class="primary" onclick="share()">
-    Compartilhar pelo WhatsApp
-  </button>
+<button class="primary" onclick="share()">
+Compartilhar pelo WhatsApp
+</button>
 
-  <button class="secondary" style="width:100%;margin-top:10px"
-    onclick="restart()">
-    Refazer experiência
-  </button>
+<button class="secondary" style="width:100%;margin-top:10px"
+onclick="restart()">
+Refazer experiência
+</button>
 
-  <div class="card center" style="margin-top:18px">
-    <h2>✨ CoupleLove Premium</h2>
-    <p class="muted">
-      Em breve: novos desafios, relatórios especiais,
-      histórico de evolução e experiências exclusivas.
-    </p>
-    <strong>Novidades em breve!</strong>
-  </div>
+<div class="card center" style="margin-top:18px">
+<h2>✨ CoupleLove Premium</h2>
+<p class="muted">
+Em breve: novos desafios, relatórios especiais,
+histórico de evolução e experiências exclusivas.
+</p>
+<strong>Novidades em breve!</strong>
+</div>
 </section>
 
 <div class="footer">
-  CoupleLove ♥ Feito para todas as formas de amar.
+CoupleLove ♥ Feito para todas as formas de amar.
 </div>
-
 </main>
 
 <script>
-const categories = [
-{
-name:"Comunicação",
-questions:[
+const categories=[
+{name:"Comunicação",questions:[
 "Quanto você valoriza conversar abertamente sobre seus sentimentos?",
 "Quanto é importante receber atenção durante uma conversa?",
 "Quanto você gosta de conversar sobre seu dia?",
@@ -352,9 +273,7 @@ questions:[
 "Quanto você valoriza sinceridade mesmo em assuntos difíceis?",
 "Quanto você considera importante ter espaço para falar sem julgamentos?"
 ]},
-{
-name:"Amor e sentimentos",
-questions:[
+{name:"Amor e sentimentos",questions:[
 "Quanto você gosta de demonstrar carinho diariamente?",
 "Quanto você valoriza abraços?",
 "Quanto você considera importante ouvir palavras de amor?",
@@ -373,9 +292,7 @@ questions:[
 "Quanto você considera importante sentir-se priorizado?",
 "Quanto você gosta de expressar gratidão pelo relacionamento?"
 ]},
-{
-name:"Convivência",
-questions:[
+{name:"Convivência",questions:[
 "Quanto você valoriza dividir as tarefas do dia a dia?",
 "Quanto você gosta de fazer atividades juntos em casa?",
 "Quanto você precisa de momentos individuais?",
@@ -393,9 +310,7 @@ questions:[
 "Quanto você considera importante adaptar hábitos pelo relacionamento?",
 "Quanto você valoriza a tranquilidade dentro de casa?"
 ]},
-{
-name:"Confiança e respeito",
-questions:[
+{name:"Confiança e respeito",questions:[
 "Quanto você considera importante a fidelidade?",
 "Quanto você valoriza a transparência no relacionamento?",
 "Quanto você considera importante respeitar a privacidade?",
@@ -414,9 +329,7 @@ questions:[
 "Quanto você valoriza a segurança emocional?",
 "Quanto você considera importante resolver conflitos sem ofensas?"
 ]},
-{
-name:"Dinheiro e futuro",
-questions:[
+{name:"Dinheiro e futuro",questions:[
 "Quanto você valoriza planejar o futuro financeiro?",
 "Quanto você considera importante economizar dinheiro?",
 "Quanto você gosta de planejar viagens antecipadamente?",
@@ -435,9 +348,7 @@ questions:[
 "Quanto você considera importante conversar sobre prioridades financeiras?",
 "Quanto você deseja envelhecer ao lado do parceiro?"
 ]},
-{
-name:"Intimidade e cumplicidade",
-questions:[
+{name:"Intimidade e cumplicidade",questions:[
 "Quanto você valoriza a intimidade emocional?",
 "Quanto você considera importante manter a conexão física?",
 "Quanto você gosta de momentos românticos a dois?",
@@ -457,12 +368,8 @@ questions:[
 ]}
 ];
 
-const questions = categories.flatMap((c,i)=>
-  c.questions.map((q,j)=>({
-    category:c.name,
-    categoryIndex:i,
-    text:q
-  }))
+const questions=categories.flatMap((c,i)=>
+c.questions.map(q=>({category:c.name,categoryIndex:i,text:q}))
 );
 
 let names=["Pessoa 1","Pessoa 2"];
@@ -474,181 +381,136 @@ let scores=[];
 let finalScore=0;
 
 function show(id){
-  ["inicio","quiz","handoff","results"].forEach(x=>
-    document.getElementById(x).classList.add("hidden")
-  );
-  document.getElementById(id).classList.remove("hidden");
-  window.scrollTo(0,0);
+["inicio","quiz","handoff","results"].forEach(x=>
+document.getElementById(x).classList.add("hidden"));
+document.getElementById(id).classList.remove("hidden");
+window.scrollTo(0,0);
 }
 
 function start(){
-  const n1=document.getElementById("name1").value.trim();
-  const n2=document.getElementById("name2").value.trim();
-
-  if(!n1||!n2){
-    alert("Digite os nomes dos dois participantes.");
-    return;
-  }
-  if(n1.toLowerCase()===n2.toLowerCase()){
-    alert("Escolham nomes diferentes para identificar as respostas.");
-    return;
-  }
-
-  names=[n1,n2];
-  participant=0;
-  index=0;
-  answers=[[],[]];
-  show("quiz");
-  render();
+const n1=document.getElementById("name1").value.trim();
+const n2=document.getElementById("name2").value.trim();
+if(!n1||!n2){alert("Digite os nomes dos dois participantes.");return}
+if(n1.toLowerCase()===n2.toLowerCase()){
+alert("Escolham nomes diferentes.");return
+}
+names=[n1,n2];
+participant=0;
+index=0;
+answers=[[],[]];
+show("quiz");
+render();
 }
 
 function render(){
-  const q=questions[index];
-  selected=answers[participant][index] ?? null;
+const q=questions[index];
+selected=answers[participant][index]??null;
+document.getElementById("who").textContent="Vez de "+names[participant];
+document.getElementById("categoryName").textContent=q.category;
+document.getElementById("counter").textContent=(index+1)+" de "+questions.length;
+document.getElementById("progress").style.width=((index+1)/questions.length*100)+"%";
+document.getElementById("question").textContent=q.text;
 
-  document.getElementById("who").textContent=
-    "Vez de "+names[participant];
-
-  document.getElementById("categoryName").textContent=q.category;
-
-  document.getElementById("counter").textContent=
-    (index+1)+" de "+questions.length;
-
-  document.getElementById("progress").style.width=
-    ((index+1)/questions.length*100)+"%";
-
-  document.getElementById("question").textContent=q.text;
-
-  const options=[
-    "1 — Nada",
-    "2 — Pouco",
-    "3 — Moderadamente",
-    "4 — Muito",
-    "5 — Extremamente"
-  ];
-
-  document.getElementById("answers").innerHTML="";
-
-  options.forEach((op,i)=>{
-    const b=document.createElement("button");
-    b.className="answer"+(selected===i+1?" selected":"");
-    b.textContent=op;
-    b.onclick=()=>choose(i+1);
-    document.getElementById("answers").appendChild(b);
-  });
-
-  document.getElementById("next").disabled=selected===null;
-  document.getElementById("next").textContent=
-    index===questions.length-1
-    ? "Concluir respostas"
-    : "Próxima";
+const options=[
+"1 — Nada","2 — Pouco","3 — Moderadamente",
+"4 — Muito","5 — Extremamente"
+];
+const area=document.getElementById("answers");
+area.innerHTML="";
+options.forEach((op,i)=>{
+const b=document.createElement("button");
+b.className="answer"+(selected===i+1?" selected":"");
+b.textContent=op;
+b.onclick=()=>choose(i+1);
+area.appendChild(b);
+});
+document.getElementById("next").disabled=selected===null;
+document.getElementById("next").textContent=
+index===questions.length-1?"Concluir respostas":"Próxima";
 }
 
 function choose(value){
-  selected=value;
-  answers[participant][index]=value;
-  render();
+selected=value;
+answers[participant][index]=value;
+render();
 }
 
 function previous(){
-  if(index>0){
-    index--;
-    render();
-  }
+if(index>0){index--;render()}
 }
 
 function next(){
-  if(selected===null)return;
-
-  if(index<questions.length-1){
-    index++;
-    render();
-    return;
-  }
-
-  if(participant===0){
-    participant=1;
-    index=0;
-    document.getElementById("handoffText").textContent=
-      names[0]+" terminou! Agora entregue o celular para "+
-      names[1]+". As respostas anteriores não serão exibidas.";
-    show("handoff");
-  }else{
-    calculate();
-  }
+if(selected===null)return;
+if(index<questions.length-1){
+index++;
+render();
+return;
+}
+if(participant===0){
+participant=1;
+index=0;
+document.getElementById("handoffText").textContent=
+names[0]+" terminou! Agora entregue o celular para "+names[1]+".";
+show("handoff");
+}else{
+calculate();
+}
 }
 
 function beginSecond(){
-  index=0;
-  show("quiz");
-  render();
+index=0;
+show("quiz");
+render();
 }
 
 function calculate(){
-  const categoryData=categories.map((c,i)=>{
-    const qs=questions.filter(q=>q.categoryIndex===i);
-    let sum=0;
+scores=categories.map((c,i)=>{
+const qs=questions.filter(q=>q.categoryIndex===i);
+let sum=0;
+qs.forEach(q=>{
+const pos=questions.indexOf(q);
+const a=answers[0][pos];
+const b=answers[1][pos];
+sum+=(1-Math.abs(a-b)/4)*100;
+});
+return{name:c.name,score:Math.round(sum/qs.length)};
+});
 
-    qs.forEach(q=>{
-      const a=answers[0][questions.indexOf(q)];
-      const b=answers[1][questions.indexOf(q)];
-      sum+=(1-Math.abs(a-b)/4)*100;
-    });
+finalScore=Math.round(
+scores.reduce((s,c)=>s+c.score,0)/scores.length
+);
 
-    return {
-      name:c.name,
-      score:Math.round(sum/qs.length)
-    };
-  });
+document.getElementById("coupleNames").textContent=
+names[0]+" ❤️ "+names[1];
+document.getElementById("totalScore").textContent=finalScore+"%";
 
-  scores=categoryData;
-  finalScore=Math.round(
-    categoryData.reduce((s,c)=>s+c.score,0)/categoryData.length
-  );
+let message="";
+if(finalScore>=90)message="Uma sintonia impressionante! Vocês compartilham muitas afinidades.";
+else if(finalScore>=75)message="Uma ótima conexão! Vocês têm bastante em comum.";
+else if(finalScore>=60)message="Uma boa sintonia, com diferenças interessantes para descobrir.";
+else if(finalScore>=40)message="Vocês têm perspectivas diferentes. Que tal conversar sobre elas?";
+else message="Duas individualidades com muito a descobrir uma sobre a outra!";
 
-  document.getElementById("coupleNames").textContent=
-    names[0]+" ❤️ "+names[1];
+document.getElementById("resultMessage").textContent=message;
 
-  document.getElementById("totalScore").textContent=
-    finalScore+"%";
+const sorted=[...scores].sort((a,b)=>b.score-a.score);
 
-  let message="";
-  if(finalScore>=90)
-    message="Uma sintonia impressionante! Vocês compartilham muitas afinidades.";
-  else if(finalScore>=75)
-    message="Uma ótima conexão! Vocês têm bastante em comum.";
-  else if(finalScore>=60)
-    message="Uma boa sintonia, com diferenças interessantes para descobrir.";
-  else if(finalScore>=40)
-    message="Vocês têm perspectivas diferentes. Que tal conversar sobre elas?";
-  else
-    message="Duas individualidades com muito a descobrir uma sobre a outra!";
+document.getElementById("categoryResults").innerHTML=scores.map(c=>`
+<div class="barline"><span>${c.name}</span><strong>${c.score}%</strong></div>
+<div class="bar"><div style="width:${c.score}%"></div></div>
+`).join("");
 
-  document.getElementById("resultMessage").textContent=message;
+document.getElementById("strengths").textContent=
+sorted[0].name+" ("+sorted[0].score+"%)";
 
-  const sorted=[...scores].sort((a,b)=>b.score-a.score);
+document.getElementById("differences").textContent=
+sorted[sorted.length-1].name+" ("+sorted[sorted.length-1].score+"%).";
 
-  document.getElementById("categoryResults").innerHTML=
-    scores.map(c=>`
-      <div class="barline">
-        <span>${c.name}</span><strong>${c.score}%</strong>
-      </div>
-      <div class="bar"><div style="width:${c.score}%"></div></div>
-    `).join("");
-
-  document.getElementById("strengths").textContent=
-    sorted[0].name+" ("+sorted[0].score+"%)";
-
-  document.getElementById("differences").textContent=
-    sorted[sorted.length-1].name+" ("+
-    sorted[sorted.length-1].score+"%).";
-
-  show("results");
+show("results");
 }
 
 function share(){
-  const text=
-`❤️ CoupleLove — CasalSintonia
+const text=`❤️ CoupleLove — CasalSintonia
 
 ${names[0]} ❤️ ${names[1]}
 
@@ -658,18 +520,15 @@ ${scores.map(c=>c.name+": "+c.score+"%").join("\n")}
 
 Descubra sua sintonia em casal!`;
 
-  window.open(
-    "https://wa.me/?text="+encodeURIComponent(text),
-    "_blank"
-  );
+window.open("https://wa.me/?text="+encodeURIComponent(text),"_blank");
 }
 
 function restart(){
-  answers=[[],[]];
-  participant=0;
-  index=0;
-  selected=null;
-  show("inicio");
+answers=[[],[]];
+participant=0;
+index=0;
+selected=null;
+show("inicio");
 }
 </script>
 </body>
