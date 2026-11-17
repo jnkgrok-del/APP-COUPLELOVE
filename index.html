@@ -3,532 +3,282 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#24152e">
-<title>CoupleLove — CasalSintonia</title>
-
+<title>CoupleLove — Sintonia a Dois</title>
 <style>
-:root{
---pink:#ed75a8;
---purple:#8056b5;
---dark:#24152e;
---light:#fff7fb;
---muted:#8a788b;
-}
 *{box-sizing:border-box}
-body{
-margin:0;background:#f8f3f8;color:var(--dark);
-font-family:Arial,sans-serif
-}
-button,input{font:inherit}
-.app{
-max-width:520px;min-height:100vh;margin:auto;
-background:white;padding:17px;overflow:hidden
-}
-header{text-align:center}
-.brand{
-color:var(--pink);font-weight:800;font-size:25px;
-letter-spacing:1px
-}
-h1{margin:5px 0;font-size:27px}
-.subtitle{color:var(--muted);font-size:13px}
-.photos{
-display:grid;grid-template-columns:repeat(3,1fr);
-gap:8px;margin:17px 0
-}
-.photo{
-height:145px;overflow:hidden;border-radius:13px;
-background:#eee0eb
-}
-.photo img{
-width:100%;height:100%;object-fit:cover;display:block
-}
-.card{
-background:var(--light);border-radius:17px;
-padding:19px;margin:12px 0
-}
-h2{font-size:19px;margin:0 0 10px}
+body{margin:0;background:#fff5f7;color:#382b35;font-family:Arial,sans-serif}
+header{text-align:center;padding:22px 15px 12px}
+header .top{font-size:15px;color:#a14b72;font-weight:bold}
+h1{font-size:34px;color:#d94d83;margin:7px 0}
+.subtitle{color:#806b78;font-size:14px}
+.container{max-width:650px;margin:auto;padding:12px}
+.card{background:white;border-radius:20px;padding:20px;margin:12px 0;box-shadow:0 5px 20px #8e456015}
+.photos{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.photos img{width:100%;height:125px;object-fit:cover;border-radius:14px}
+h2{color:#c83f75;font-size:22px}
 p{line-height:1.5}
-.muted{color:var(--muted);font-size:13px}
-label{display:block;margin-top:16px;font-weight:600}
-input{
-width:100%;padding:14px;border:1px solid #e6d5e5;
-border-radius:11px;margin:7px 0;background:white
-}
-button{
-border:0;cursor:pointer;border-radius:12px;
-padding:14px;font-weight:bold
-}
-.primary{
-background:linear-gradient(100deg,var(--pink),var(--purple));
-color:white;width:100%
-}
-.secondary{background:#f0e6f1;color:var(--dark)}
-button:disabled{opacity:.4}
-.progress{
-height:8px;background:#eee4ed;border-radius:20px;
-overflow:hidden;margin:12px 0
-}
-.progress div{
-height:100%;background:linear-gradient(90deg,var(--pink),var(--purple))
-}
-.category{
-color:var(--purple);font-size:12px;font-weight:bold;
-text-transform:uppercase
-}
-.question{
-font-size:20px;line-height:1.4;font-weight:bold;
-margin:17px 0
-}
-.answers{display:grid;gap:9px}
-.answer{
-background:white;border:1px solid #eadbea;
-text-align:left;color:var(--dark)
-}
-.answer.selected{
-border:2px solid var(--pink);background:#fff0f7
-}
-.row{display:flex;gap:9px;margin-top:15px}
-.row button{flex:1}
-.center{text-align:center}
-.big{
-font-size:53px;font-weight:900;color:var(--purple);
-margin:15px 0
-}
-.barline{
-display:flex;justify-content:space-between;
-font-size:13px;margin:13px 0 5px
-}
-.bar{
-height:11px;background:#eee5ef;border-radius:20px;
-overflow:hidden
-}
-.bar div{
-height:100%;background:linear-gradient(90deg,var(--pink),var(--purple))
-}
-.hidden{display:none!important}
-.logoheart{color:var(--pink);font-size:30px}
-.footer{
-text-align:center;color:#a18ca1;font-size:11px;
-margin:24px 0 10px
-}
-@media(max-width:380px){
-.photo{height:115px}
-.app{padding:13px}
-}
+button{border:0;border-radius:13px;background:#d94d83;color:white;padding:15px 20px;font-size:16px;font-weight:bold;width:100%;cursor:pointer;margin-top:12px}
+button.secondary{background:#f6e3eb;color:#a33c69}
+button:disabled{opacity:.5}
+.hidden{display:none}
+.progress{height:9px;background:#f4dce6;border-radius:20px;overflow:hidden;margin:15px 0}
+.progress div{height:100%;width:0;background:#d94d83;transition:.3s}
+.category{font-size:13px;color:#a14b72;font-weight:bold}
+.question{font-size:20px;font-weight:bold;margin:15px 0}
+.option{display:block;width:100%;text-align:left;background:#fff7fa;border:2px solid #f0d8e2;color:#493642;font-weight:normal;margin:9px 0;padding:14px;border-radius:12px}
+.option.selected{background:#fbe0eb;border-color:#d94d83;color:#a52f65}
+.result-number{font-size:54px;font-weight:bold;color:#d94d83;text-align:center}
+.result-category{margin:15px 0}
+.result-category strong{display:block;margin-bottom:5px}
+.bar{height:10px;background:#f4dce6;border-radius:20px;overflow:hidden}
+.bar div{height:100%;background:#d94d83}
+.small{font-size:12px;color:#907d88}
+footer{text-align:center;padding:25px;color:#a18b96;font-size:12px}
 </style>
 </head>
-
 <body>
-<main class="app">
 
 <header>
-<div class="brand">CoupleLove ♥</div>
+<div class="top">CoupleLove</div>
 <h1>CasalSintonia</h1>
-<div class="subtitle">
-Toda história de amor merece ser descoberta.
-</div>
+<div class="subtitle">Descubram o quanto vocês estão em sintonia ❤️</div>
 </header>
 
-<!-- TRÊS FOTOS SEM LEGENDAS -->
+<main class="container">
+
+<section id="inicio" class="card">
 <div class="photos">
-<div class="photo">
-<img src="https://images.unsplash.com/photo-1650550740143-31d5649a39b5?auto=format&fit=crop&w=600&q=85"
-alt="Dois homens juntos">
+<img src="https://images.unsplash.com/photo-1650550740143-31d5649a39b5?auto=format&fit=crop&w=600&q=85" alt="Casal">
+<img src="https://images.unsplash.com/photo-1609150996011-63c238b520fa?auto=format&fit=crop&w=600&q=85" alt="Casal">
+<img src="https://images.unsplash.com/photo-1504194569341-48a2e831a3a7?auto=format&fit=crop&w=600&q=85" alt="Casal">
 </div>
-<div class="photo">
-<img src="https://images.unsplash.com/photo-1609150996011-63c238b520fa?auto=format&fit=crop&w=600&q=85"
-alt="Duas mulheres juntas">
-</div>
-<div class="photo">
-<img src="https://images.unsplash.com/photo-1504194569341-48a2e831a3a7?auto=format&fit=crop&w=600&q=85"
-alt="Homem e mulher juntos">
-</div>
-</div>
-
-<section id="inicio">
-<div class="card">
-<h2>Descubram a sintonia de vocês ❤️</h2>
-<p class="muted">
-São 100 perguntas sobre amor, sentimentos,
-convivência, confiança, intimidade e futuro.
-Cada pessoa responde individualmente.
-</p>
-
-<label>Nome do primeiro participante</label>
-<input id="name1" maxlength="20" placeholder="Ex.: Alex">
-
-<label>Nome do segundo participante</label>
-<input id="name2" maxlength="20" placeholder="Ex.: Sam">
-
-<button class="primary" onclick="start()">
-Começar nossa experiência ❤️
-</button>
-</div>
-<div class="center muted">
-Sem cadastro. Sem login. Sem pareamento.
-</div>
+<h2>Como está a sintonia de vocês?</h2>
+<p>São 30 perguntas sobre sentimentos, comunicação, confiança, família, futuro e intimidade.</p>
+<p>Primeiro uma pessoa responde. Depois, a outra responde às mesmas perguntas, sem ver as respostas anteriores.</p>
+<p><strong>Não existem respostas certas ou erradas.</strong> O objetivo é descobrir onde vocês combinam e onde podem melhorar juntos.</p>
+<button onclick="iniciar()">Começar o teste</button>
 </section>
 
-<section id="quiz" class="hidden">
-<div class="card">
-<div class="category" id="who"></div>
-<div class="barline">
-<span id="categoryName"></span>
-<span id="counter"></span>
-</div>
-<div class="progress"><div id="progress"></div></div>
-<div class="question" id="question"></div>
-<div class="answers" id="answers"></div>
-<div class="row">
-<button class="secondary" onclick="previous()">Voltar</button>
-<button class="primary" id="next" onclick="next()" disabled>
-Próxima
-</button>
-</div>
-</div>
+<section id="identificacao" class="card hidden">
+<h2>Vamos começar!</h2>
+<p id="textoParticipante">Quem vai responder primeiro?</p>
+<input id="nome" placeholder="Digite seu nome" style="width:100%;padding:14px;border:1px solid #e8cbd8;border-radius:12px;font-size:16px">
+<button onclick="confirmarNome()">Continuar</button>
 </section>
 
-<section id="handoff" class="hidden">
-<div class="card center">
-<div class="logoheart">♥</div>
-<h2>Agora é a vez de outra pessoa!</h2>
-<p id="handoffText"></p>
-<p class="muted">
-As respostas anteriores estão ocultas.
-Entregue o celular sem mostrar suas respostas.
-</p>
-<button class="primary" onclick="beginSecond()">
-Estou pronto(a)!
-</button>
-</div>
+<section id="quiz" class="card hidden">
+<div class="category" id="categoria"></div>
+<div class="progress"><div id="progresso"></div></div>
+<p class="small" id="contador"></p>
+<div class="question" id="pergunta"></div>
+<div id="alternativas"></div>
+<button id="proximo" onclick="proxima()" disabled>Próxima pergunta</button>
 </section>
 
-<section id="results" class="hidden">
-<div class="card center">
-<div class="logoheart">♥</div>
-<h2>Resultado do casal</h2>
-<p id="coupleNames"></p>
-<div class="big" id="totalScore">0%</div>
-<strong>Sintonia geral</strong>
-<p id="resultMessage"></p>
-</div>
-
-<div class="card">
-<h2>Relatório de compatibilidade</h2>
-<p class="muted">
-Veja como vocês se aproximam em cada dimensão.
-</p>
-<div id="categoryResults"></div>
-</div>
-
-<div class="card">
-<h2>Onde vocês mais combinam?</h2>
-<div id="strengths"></div>
-<h2 style="margin-top:20px">Onde podem se conhecer melhor?</h2>
-<div id="differences"></div>
-</div>
-
-<button class="primary" onclick="share()">
-Compartilhar pelo WhatsApp
-</button>
-
-<button class="secondary" style="width:100%;margin-top:10px"
-onclick="restart()">
-Refazer experiência
-</button>
-
-<div class="card center" style="margin-top:18px">
-<h2>✨ CoupleLove Premium</h2>
-<p class="muted">
-Em breve: novos desafios, relatórios especiais,
-histórico de evolução e experiências exclusivas.
-</p>
-<strong>Novidades em breve!</strong>
-</div>
+<section id="troca" class="card hidden">
+<h2>Agora é a vez da outra pessoa! ❤️</h2>
+<p id="mensagemTroca"></p>
+<p>Entregue o celular para a outra pessoa. As respostas anteriores ficarão escondidas.</p>
+<button onclick="segundaPessoa()">Continuar</button>
 </section>
 
-<div class="footer">
-CoupleLove ♥ Feito para todas as formas de amar.
-</div>
+<section id="resultado" class="card hidden">
+<h2>Resultado da sintonia ❤️</h2>
+<p id="nomesResultado" style="text-align:center"></p>
+<div class="result-number" id="pontuacao"></div>
+<p style="text-align:center">de sintonia entre vocês</p>
+<h3>Resultado por categoria</h3>
+<div id="detalhes"></div>
+<div id="mensagemFinal"></div>
+<button onclick="compartilhar()">Compartilhar resultado</button>
+<button class="secondary" onclick="reiniciar()">Fazer novamente</button>
+</section>
+
+<section class="card" style="text-align:center">
+<h3>CoupleLove Premium 💎</h3>
+<p>Mais experiências para aprofundar a conexão e a cumplicidade do casal.</p>
+<p class="small">Novidades em breve.</p>
+</section>
+
 </main>
+<footer>CoupleLove ❤️ Feito para aproximar pessoas.</footer>
 
 <script>
-const categories=[
-{name:"Comunicação",questions:[
-"Quanto você valoriza conversar abertamente sobre seus sentimentos?",
-"Quanto é importante receber atenção durante uma conversa?",
-"Quanto você gosta de conversar sobre seu dia?",
-"Quanto você considera importante resolver desentendimentos conversando?",
-"Quanto você se sente confortável falando sobre suas inseguranças?",
-"Quanto você valoriza mensagens carinhosas durante o dia?",
-"Quanto é importante ouvir antes de responder?",
-"Quanto você gosta de compartilhar suas conquistas?",
-"Quanto você considera importante falar sobre expectativas?",
-"Quanto você gosta de conversas profundas?",
-"Quanto você valoriza o bom humor nas conversas?",
-"Quanto é importante demonstrar interesse pelo que o outro conta?",
-"Quanto você prefere resolver problemas imediatamente?",
-"Quanto você considera importante falar sobre limites?",
-"Quanto você gosta de receber elogios?",
-"Quanto você valoriza sinceridade mesmo em assuntos difíceis?",
-"Quanto você considera importante ter espaço para falar sem julgamentos?"
+const categorias = [
+{
+nome:"Amor e sentimentos",
+perguntas:[
+["Com que frequência você demonstra seu amor?",["Quase nunca demonstro","Demonstro pouco","Demonstro quando sinto vontade","Demonstro com frequência","Faço questão de demonstrar todos os dias"]],
+["O quanto você se sente amado(a) nessa relação?",["Não me sinto amado(a)","Sinto pouco amor","Sinto amor, mas poderia melhorar","Sinto bastante amor","Sinto-me profundamente amado(a)"]],
+["Quando seu parceiro está triste, como você reage?",["Tenho dificuldade de perceber","Não sei bem como agir","Tento ajudar quando posso","Procuro oferecer apoio","Faço questão de acolher e estar presente"]],
+["O quanto você se sente valorizado(a)?",["Não me sinto valorizado(a)","Raramente me sinto valorizado(a)","Às vezes me sinto valorizado(a)","Na maioria das vezes","Sinto-me valorizado(a) constantemente"]],
+["Você costuma falar sobre seus sentimentos?",["Evito falar sobre eles","Falo muito pouco","Falo em algumas situações","Consigo falar com frequência","Compartilho meus sentimentos abertamente"]]
 ]},
-{name:"Amor e sentimentos",questions:[
-"Quanto você gosta de demonstrar carinho diariamente?",
-"Quanto você valoriza abraços?",
-"Quanto você considera importante ouvir palavras de amor?",
-"Quanto você gosta de surpresas românticas?",
-"Quanto você valoriza passar tempo de qualidade juntos?",
-"Quanto você gosta de demonstrar afeto em público?",
-"Quanto você considera importante comemorar datas especiais?",
-"Quanto você valoriza pequenos gestos de carinho?",
-"Quanto você gosta de receber demonstrações espontâneas de amor?",
-"Quanto você considera importante manter o romantismo?",
-"Quanto você gosta de fazer programas a dois?",
-"Quanto você valoriza elogios sobre sua personalidade?",
-"Quanto você considera importante apoiar emocionalmente o parceiro?",
-"Quanto você gosta de demonstrar saudade?",
-"Quanto você valoriza construir lembranças juntos?",
-"Quanto você considera importante sentir-se priorizado?",
-"Quanto você gosta de expressar gratidão pelo relacionamento?"
+{
+nome:"Comunicação",
+perguntas:[
+["Como vocês conversam quando existe um problema?",["Evitamos conversar","Conversamos com muita dificuldade","Conversamos, mas nem sempre resolvemos","Geralmente conseguimos resolver","Conversamos abertamente e buscamos soluções"]],
+["Você sente que seu parceiro escuta você?",["Nunca me sinto ouvido(a)","Raramente me escuta","Às vezes me escuta","Geralmente me escuta","Sempre me escuta com atenção"]],
+["Como vocês lidam com opiniões diferentes?",["As diferenças viram brigas","Temos muita dificuldade","Às vezes conseguimos conversar","Respeitamos as diferenças","Valorizamos e respeitamos as opiniões"]],
+["O quanto vocês conversam sobre o dia a dia?",["Quase não conversamos","Conversamos muito pouco","Trocamos algumas informações","Conversamos bastante","Compartilhamos nosso dia com entusiasmo"]],
+["Você consegue falar o que realmente pensa?",["Tenho medo de falar","Quase sempre guardo para mim","Depende do assunto","Na maioria das vezes consigo","Tenho total liberdade para me expressar"]]
 ]},
-{name:"Convivência",questions:[
-"Quanto você valoriza dividir as tarefas do dia a dia?",
-"Quanto você gosta de fazer atividades juntos em casa?",
-"Quanto você precisa de momentos individuais?",
-"Quanto você considera importante respeitar diferenças?",
-"Quanto você valoriza manter a organização da casa?",
-"Quanto você gosta de receber visitas em casa?",
-"Quanto você considera importante ter rotinas parecidas?",
-"Quanto você gosta de tomar decisões em conjunto?",
-"Quanto você valoriza a liberdade individual?",
-"Quanto você considera importante respeitar o espaço pessoal?",
-"Quanto você gosta de viajar acompanhado?",
-"Quanto você considera importante compartilhar responsabilidades?",
-"Quanto você valoriza ter momentos de diversão juntos?",
-"Quanto você gosta de planejar a semana em conjunto?",
-"Quanto você considera importante adaptar hábitos pelo relacionamento?",
-"Quanto você valoriza a tranquilidade dentro de casa?"
+{
+nome:"Confiança e respeito",
+perguntas:[
+["Quanto você confia no seu parceiro?",["Não confio","Confio muito pouco","Tenho uma confiança parcial","Confio bastante","Tenho plena confiança"]],
+["Como vocês respeitam o espaço individual?",["Não respeitamos esse espaço","Existe bastante dificuldade","Estamos aprendendo","Respeitamos na maioria das vezes","Respeitamos totalmente a individualidade"]],
+["Como vocês lidam com ciúmes?",["O ciúme gera conflitos constantes","Temos dificuldade de controlar","Às vezes conseguimos conversar","Conversamos e buscamos equilíbrio","Existe diálogo e confiança"]],
+["Você sente que pode ser você mesmo(a) na relação?",["Preciso esconder quem sou","Tenho dificuldade de ser eu mesmo(a)","Consigo ser eu em algumas situações","Geralmente sou autêntico(a)","Sou totalmente aceito(a) como sou"]],
+["Como vocês lidam com os limites um do outro?",["Meus limites não são respeitados","Existe dificuldade em respeitá-los","Estamos aprendendo a respeitar","Geralmente respeitamos","Respeitamos os limites com naturalidade"]]
 ]},
-{name:"Confiança e respeito",questions:[
-"Quanto você considera importante a fidelidade?",
-"Quanto você valoriza a transparência no relacionamento?",
-"Quanto você considera importante respeitar a privacidade?",
-"Quanto você valoriza cumprir promessas?",
-"Quanto você considera importante confiar sem precisar controlar?",
-"Quanto você valoriza ter amizades individuais?",
-"Quanto você considera importante estabelecer limites saudáveis?",
-"Quanto você gosta de compartilhar suas preocupações?",
-"Quanto você considera importante admitir quando está errado?",
-"Quanto você valoriza a honestidade sobre dinheiro?",
-"Quanto você considera importante respeitar opiniões diferentes?",
-"Quanto você valoriza a lealdade nos momentos difíceis?",
-"Quanto você considera importante evitar atitudes de controle?",
-"Quanto você valoriza a confiança nas redes sociais?",
-"Quanto você considera importante manter a palavra?",
-"Quanto você valoriza a segurança emocional?",
-"Quanto você considera importante resolver conflitos sem ofensas?"
+{
+nome:"Convivência e família",
+perguntas:[
+["Como vocês imaginam a evolução da família de vocês?",["Nunca conversamos sobre isso","Temos ideias muito diferentes","Ainda estamos descobrindo","Temos planos parecidos","Temos uma visão compartilhada e respeitamos nossos desejos"]],
+["Como vocês dividem responsabilidades?",["A divisão é muito desigual","Poucas responsabilidades são compartilhadas","Estamos tentando equilibrar","Dividimos bem as responsabilidades","Existe parceria e equilíbrio"]],
+["Como vocês lidam com familiares e pessoas próximas?",["Isso costuma gerar conflitos","Temos muitas dificuldades","Às vezes conseguimos equilibrar","Geralmente existe respeito","Sabemos estabelecer limites juntos"]],
+["O quanto vocês gostam de passar tempo juntos?",["Quase nunca queremos estar juntos","Pouco tempo juntos","Depende do momento","Gostamos bastante de estar juntos","Fazemos questão de compartilhar momentos"]],
+["Como vocês tomam decisões importantes?",["Cada um decide sozinho","Temos dificuldade de chegar a acordos","Conversamos algumas vezes","Geralmente decidimos juntos","Todas as decisões importantes são construídas em parceria"]]
 ]},
-{name:"Dinheiro e futuro",questions:[
-"Quanto você valoriza planejar o futuro financeiro?",
-"Quanto você considera importante economizar dinheiro?",
-"Quanto você gosta de planejar viagens antecipadamente?",
-"Quanto você deseja construir patrimônio em conjunto?",
-"Quanto você considera importante conversar sobre dívidas?",
-"Quanto você valoriza estabilidade financeira?",
-"Quanto você considera importante dividir despesas de forma justa?",
-"Quanto você gosta de experimentar coisas novas juntos?",
-"Quanto você deseja morar em outro lugar no futuro?",
-"Quanto você considera importante planejar objetivos em conjunto?",
-"Quanto você valoriza investir no futuro?",
-"Quanto você considera importante apoiar os sonhos profissionais do parceiro?",
-"Quanto você gostaria de construir uma família, se isso fizer sentido para vocês?",
-"Quanto você considera importante ter objetivos de vida semelhantes?",
-"Quanto você valoriza planejar a aposentadoria?",
-"Quanto você considera importante conversar sobre prioridades financeiras?",
-"Quanto você deseja envelhecer ao lado do parceiro?"
+{
+nome:"Dinheiro e futuro",
+perguntas:[
+["Vocês conversam sobre dinheiro?",["Nunca conversamos","Quase nunca conversamos","Falamos apenas quando necessário","Conversamos com frequência","Temos diálogo aberto sobre finanças"]],
+["Como vocês enxergam o futuro da relação?",["Temos visões incompatíveis","Ainda existem muitas dúvidas","Estamos descobrindo juntos","Temos objetivos parecidos","Compartilhamos planos e sonhos"]],
+["Como lidam com gastos e prioridades?",["Isso gera conflitos constantes","Temos muita dificuldade","Estamos buscando equilíbrio","Geralmente chegamos a acordos","Planejamos e decidimos em conjunto"]],
+["Vocês apoiam os sonhos individuais um do outro?",["Não existe apoio","Existe pouco incentivo","Às vezes nos apoiamos","Geralmente incentivamos um ao outro","Somos grandes incentivadores dos nossos sonhos"]],
+["O quanto vocês se sentem parceiros diante dos desafios?",["Cada um enfrenta tudo sozinho","Falta apoio em muitos momentos","Estamos aprendendo a cooperar","Geralmente enfrentamos juntos","Somos uma equipe em qualquer desafio"]]
 ]},
-{name:"Intimidade e cumplicidade",questions:[
-"Quanto você valoriza a intimidade emocional?",
-"Quanto você considera importante manter a conexão física?",
-"Quanto você gosta de momentos românticos a dois?",
-"Quanto você valoriza conversar sobre desejos e necessidades?",
-"Quanto você considera importante respeitar os limites íntimos?",
-"Quanto você gosta de experimentar novidades juntos?",
-"Quanto você valoriza a espontaneidade no relacionamento?",
-"Quanto você considera importante manter a atração?",
-"Quanto você gosta de demonstrar desejo e interesse?",
-"Quanto você valoriza a cumplicidade nos momentos difíceis?",
-"Quanto você considera importante rir juntos?",
-"Quanto você gosta de compartilhar sonhos pessoais?",
-"Quanto você valoriza ter experiências novas como casal?",
-"Quanto você considera importante manter a amizade dentro do amor?",
-"Quanto você gosta de criar tradições particulares?",
-"Quanto você valoriza sentir-se compreendido pelo parceiro?"
+{
+nome:"Intimidade e cumplicidade",
+perguntas:[
+["O quanto existe carinho entre vocês?",["Quase não existe carinho","Existe pouco carinho","Temos momentos de carinho","Existe bastante carinho","O carinho faz parte da nossa rotina"]],
+["Como está a intimidade entre vocês?",["Não estamos satisfeitos","Precisamos melhorar bastante","Estamos buscando equilíbrio","Estamos satisfeitos","Existe conexão e satisfação mútua"]],
+["Vocês conseguem falar sobre desejos e necessidades?",["Não conseguimos conversar","Temos muita dificuldade","Falamos sobre algumas coisas","Conversamos com certa liberdade","Temos diálogo aberto e respeitoso"]],
+["O quanto vocês se divertem juntos?",["Quase nunca nos divertimos","Poucas vezes","Às vezes temos bons momentos","Nos divertimos bastante","Rimos e nos divertimos constantemente"]],
+["Você sente que existe cumplicidade entre vocês?",["Não sinto cumplicidade","Sinto muito pouca","Existe em alguns momentos","Sinto bastante cumplicidade","Somos verdadeiros parceiros"]]
 ]}
 ];
 
-const questions=categories.flatMap((c,i)=>
-c.questions.map(q=>({category:c.name,categoryIndex:i,text:q}))
-);
+let participante=1;
+let nomes=[];
+let respostas=[[],[]];
+let indice=0;
+let perguntas=[];
+let categoriaAtual=0;
 
-let names=["Pessoa 1","Pessoa 2"];
-let participant=0;
-let index=0;
-let answers=[[],[]];
-let selected=null;
-let scores=[];
-let finalScore=0;
-
-function show(id){
-["inicio","quiz","handoff","results"].forEach(x=>
-document.getElementById(x).classList.add("hidden"));
+function mostrar(id){
+["inicio","identificacao","quiz","troca","resultado"].forEach(x=>document.getElementById(x).classList.add("hidden"));
 document.getElementById(id).classList.remove("hidden");
-window.scrollTo(0,0);
 }
-
-function start(){
-const n1=document.getElementById("name1").value.trim();
-const n2=document.getElementById("name2").value.trim();
-if(!n1||!n2){alert("Digite os nomes dos dois participantes.");return}
-if(n1.toLowerCase()===n2.toLowerCase()){
-alert("Escolham nomes diferentes.");return
+function iniciar(){
+participante=1;
+nomes=[];
+respostas=[[],[]];
+indice=0;
+mostrar("identificacao");
+document.getElementById("textoParticipante").textContent="Quem vai responder primeiro?";
+document.getElementById("nome").value="";
 }
-names=[n1,n2];
-participant=0;
-index=0;
-answers=[[],[]];
-show("quiz");
-render();
+function confirmarNome(){
+let nome=document.getElementById("nome").value.trim();
+if(!nome){alert("Digite seu nome para continuar.");return;}
+nomes[participante-1]=nome;
+if(participante===1){
+participante=2;
+document.getElementById("textoParticipante").textContent="Agora, quem vai responder em segundo lugar?";
+document.getElementById("nome").value="";
+}else{
+participante=1;
+iniciarQuiz();
 }
-
-function render(){
-const q=questions[index];
-selected=answers[participant][index]??null;
-document.getElementById("who").textContent="Vez de "+names[participant];
-document.getElementById("categoryName").textContent=q.category;
-document.getElementById("counter").textContent=(index+1)+" de "+questions.length;
-document.getElementById("progress").style.width=((index+1)/questions.length*100)+"%";
-document.getElementById("question").textContent=q.text;
-
-const options=[
-"1 — Nada","2 — Pouco","3 — Moderadamente",
-"4 — Muito","5 — Extremamente"
-];
-const area=document.getElementById("answers");
+}
+function montarPerguntas(){
+perguntas=[];
+categorias.forEach((cat,c)=>{
+cat.perguntas.forEach((p)=>perguntas.push({categoria:cat.nome,numeroCategoria:c,pergunta:p[0],opcoes:p[1]}));
+});
+}
+function iniciarQuiz(){
+montarPerguntas();
+indice=0;
+mostrar("quiz");
+renderizar();
+}
+function renderizar(){
+let p=perguntas[indice];
+document.getElementById("categoria").textContent=p.categoria;
+document.getElementById("contador").textContent="Pergunta "+(indice+1)+" de 30";
+document.getElementById("progresso").style.width=((indice+1)/30*100)+"%";
+document.getElementById("pergunta").textContent=p.pergunta;
+let area=document.getElementById("alternativas");
 area.innerHTML="";
-options.forEach((op,i)=>{
-const b=document.createElement("button");
-b.className="answer"+(selected===i+1?" selected":"");
-b.textContent=op;
-b.onclick=()=>choose(i+1);
+document.getElementById("proximo").disabled=true;
+p.opcoes.forEach((op,i)=>{
+let b=document.createElement("button");
+b.className="option";
+b.textContent=(i+1)+". "+op;
+b.onclick=()=>{
+area.querySelectorAll("button").forEach(x=>x.classList.remove("selected"));
+b.classList.add("selected");
+respostas[participante-1][indice]=i;
+document.getElementById("proximo").disabled=false;
+};
 area.appendChild(b);
 });
-document.getElementById("next").disabled=selected===null;
-document.getElementById("next").textContent=
-index===questions.length-1?"Concluir respostas":"Próxima";
 }
-
-function choose(value){
-selected=value;
-answers[participant][index]=value;
-render();
-}
-
-function previous(){
-if(index>0){index--;render()}
-}
-
-function next(){
-if(selected===null)return;
-if(index<questions.length-1){
-index++;
-render();
-return;
-}
-if(participant===0){
-participant=1;
-index=0;
-document.getElementById("handoffText").textContent=
-names[0]+" terminou! Agora entregue o celular para "+names[1]+".";
-show("handoff");
+function proxima(){
+if(respostas[participante-1][indice]===undefined)return;
+indice++;
+if(indice<30){renderizar();return;}
+if(participante===1){
+participante=2;
+mostrar("troca");
+document.getElementById("mensagemTroca").textContent=nomes[1]+", agora é sua vez de responder às 30 perguntas. As respostas de "+nomes[0]+" não serão mostradas.";
 }else{
-calculate();
+calcularResultado();
 }
 }
-
-function beginSecond(){
-index=0;
-show("quiz");
-render();
+function segundaPessoa(){
+indice=0;
+mostrar("quiz");
+renderizar();
 }
-
-function calculate(){
-scores=categories.map((c,i)=>{
-const qs=questions.filter(q=>q.categoryIndex===i);
-let sum=0;
-qs.forEach(q=>{
-const pos=questions.indexOf(q);
-const a=answers[0][pos];
-const b=answers[1][pos];
-sum+=(1-Math.abs(a-b)/4)*100;
+function calcularResultado(){
+let soma=0;
+let porCategoria=categorias.map(()=>({soma:0,total:0}));
+for(let i=0;i<30;i++){
+let a=respostas[0][i],b=respostas[1][i];
+let pontos=(1-Math.abs(a-b)/4)*100;
+soma+=pontos;
+let c=perguntas[i].numeroCategoria;
+porCategoria[c].soma+=pontos;
+porCategoria[c].total++;
+}
+let media=Math.round(soma/30);
+document.getElementById("pontuacao").textContent=media+"%";
+document.getElementById("nomesResultado").textContent=nomes[0]+" e "+nomes[1];
+let detalhes=document.getElementById("detalhes");
+detalhes.innerHTML="";
+porCategoria.forEach((c,i)=>{
+let valor=Math.round(c.soma/c.total);
+let div=document.createElement("div");
+div.className="result-category";
+div.innerHTML="<strong>"+categorias[i].nome+" — "+valor+"%</strong><div class='bar'><div style='width:"+valor+"%'></div></div>";
+detalhes.appendChild(div);
 });
-return{name:c.name,score:Math.round(sum/qs.length)};
-});
-
-finalScore=Math.round(
-scores.reduce((s,c)=>s+c.score,0)/scores.length
-);
-
-document.getElementById("coupleNames").textContent=
-names[0]+" ❤️ "+names[1];
-document.getElementById("totalScore").textContent=finalScore+"%";
-
-let message="";
-if(finalScore>=90)message="Uma sintonia impressionante! Vocês compartilham muitas afinidades.";
-else if(finalScore>=75)message="Uma ótima conexão! Vocês têm bastante em comum.";
-else if(finalScore>=60)message="Uma boa sintonia, com diferenças interessantes para descobrir.";
-else if(finalScore>=40)message="Vocês têm perspectivas diferentes. Que tal conversar sobre elas?";
-else message="Duas individualidades com muito a descobrir uma sobre a outra!";
-
-document.getElementById("resultMessage").textContent=message;
-
-const sorted=[...scores].sort((a,b)=>b.score-a.score);
-
-document.getElementById("categoryResults").innerHTML=scores.map(c=>`
-<div class="barline"><span>${c.name}</span><strong>${c.score}%</strong></div>
-<div class="bar"><div style="width:${c.score}%"></div></div>
-`).join("");
-
-document.getElementById("strengths").textContent=
-sorted[0].name+" ("+sorted[0].score+"%)";
-
-document.getElementById("differences").textContent=
-sorted[sorted.length-1].name+" ("+sorted[sorted.length-1].score+"%).";
-
-show("results");
+let mensagem=media>=90?"Sintonia muito alta! Vocês demonstram grande alinhamento.":media>=75?"Uma ótima sintonia! Vocês compartilham muitas afinidades.":media>=50?"Vocês têm pontos em comum e também oportunidades de aproximação.":"Existem diferenças importantes. O diálogo pode ajudar vocês a se conhecerem melhor.";
+document.getElementById("mensagemFinal").innerHTML="<p><strong>"+mensagem+"</strong></p><p class='small'>O resultado representa apenas a semelhança entre as respostas. Não é uma avaliação científica nem define a qualidade da relação.</p>";
+mostrar("resultado");
 }
-
-function share(){
-const text=`❤️ CoupleLove — CasalSintonia
-
-${names[0]} ❤️ ${names[1]}
-
-Nossa sintonia: ${finalScore}%
-
-${scores.map(c=>c.name+": "+c.score+"%").join("\n")}
-
-Descubra sua sintonia em casal!`;
-
-window.open("https://wa.me/?text="+encodeURIComponent(text),"_blank");
+function compartilhar(){
+let texto="❤️ Resultado CoupleLove\n"+nomes[0]+" e "+nomes[1]+"\nSintonia: "+document.getElementById("pontuacao").textContent+"\nDescubram também a sintonia de vocês!";
+let url="https://wa.me/?text="+encodeURIComponent(texto);
+window.open(url,"_blank");
 }
-
-function restart(){
-answers=[[],[]];
-participant=0;
-index=0;
-selected=null;
-show("inicio");
+function reiniciar(){
+mostrar("inicio");
 }
 </script>
 </body>
