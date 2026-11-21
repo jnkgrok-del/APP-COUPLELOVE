@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CoupleLove — Sintonia a Dois</title>
+<title>CoupleLove — CasalSintonia</title>
 <style>
 *{box-sizing:border-box}
 body{margin:0;background:#fff5f7;color:#382b35;font-family:Arial,sans-serif}
@@ -41,7 +41,7 @@ footer{text-align:center;padding:25px;color:#a18b96;font-size:12px}
 <header>
 <div class="top">CoupleLove</div>
 <h1>CasalSintonia</h1>
-<div class="subtitle">Descubram o quanto vocês estão em sintonia ❤️</div>
+<div class="subtitle">Descubram o quanto vocês estão em sintonia 💗</div>
 </header>
 
 <main class="container">
@@ -166,12 +166,12 @@ let nomes=[];
 let respostas=[[],[]];
 let indice=0;
 let perguntas=[];
-let categoriaAtual=0;
 
 function mostrar(id){
 ["inicio","identificacao","quiz","troca","resultado"].forEach(x=>document.getElementById(x).classList.add("hidden"));
 document.getElementById(id).classList.remove("hidden");
 }
+
 function iniciar(){
 participante=1;
 nomes=[];
@@ -181,6 +181,7 @@ mostrar("identificacao");
 document.getElementById("textoParticipante").textContent="Quem vai responder primeiro?";
 document.getElementById("nome").value="";
 }
+
 function confirmarNome(){
 let nome=document.getElementById("nome").value.trim();
 if(!nome){alert("Digite seu nome para continuar.");return;}
@@ -194,18 +195,26 @@ participante=1;
 iniciarQuiz();
 }
 }
+
 function montarPerguntas(){
 perguntas=[];
 categorias.forEach((cat,c)=>{
-cat.perguntas.forEach((p)=>perguntas.push({categoria:cat.nome,numeroCategoria:c,pergunta:p[0],opcoes:p[1]}));
+cat.perguntas.forEach(p=>perguntas.push({
+categoria:cat.nome,
+numeroCategoria:c,
+pergunta:p[0],
+opcoes:p[1]
+}));
 });
 }
+
 function iniciarQuiz(){
 montarPerguntas();
 indice=0;
 mostrar("quiz");
 renderizar();
 }
+
 function renderizar(){
 let p=perguntas[indice];
 document.getElementById("categoria").textContent=p.categoria;
@@ -215,6 +224,7 @@ document.getElementById("pergunta").textContent=p.pergunta;
 let area=document.getElementById("alternativas");
 area.innerHTML="";
 document.getElementById("proximo").disabled=true;
+
 p.opcoes.forEach((op,i)=>{
 let b=document.createElement("button");
 b.className="option";
@@ -228,10 +238,14 @@ document.getElementById("proximo").disabled=false;
 area.appendChild(b);
 });
 }
+
 function proxima(){
 if(respostas[participante-1][indice]===undefined)return;
 indice++;
-if(indice<30){renderizar();return;}
+if(indice<30){
+renderizar();
+return;
+}
 if(participante===1){
 participante=2;
 mostrar("troca");
@@ -240,27 +254,34 @@ document.getElementById("mensagemTroca").textContent=nomes[1]+", agora é sua ve
 calcularResultado();
 }
 }
+
 function segundaPessoa(){
 indice=0;
 mostrar("quiz");
 renderizar();
 }
+
 function calcularResultado(){
 let soma=0;
 let porCategoria=categorias.map(()=>({soma:0,total:0}));
+
 for(let i=0;i<30;i++){
-let a=respostas[0][i],b=respostas[1][i];
+let a=respostas[0][i];
+let b=respostas[1][i];
 let pontos=(1-Math.abs(a-b)/4)*100;
 soma+=pontos;
 let c=perguntas[i].numeroCategoria;
 porCategoria[c].soma+=pontos;
 porCategoria[c].total++;
 }
+
 let media=Math.round(soma/30);
 document.getElementById("pontuacao").textContent=media+"%";
 document.getElementById("nomesResultado").textContent=nomes[0]+" e "+nomes[1];
+
 let detalhes=document.getElementById("detalhes");
 detalhes.innerHTML="";
+
 porCategoria.forEach((c,i)=>{
 let valor=Math.round(c.soma/c.total);
 let div=document.createElement("div");
@@ -268,15 +289,50 @@ div.className="result-category";
 div.innerHTML="<strong>"+categorias[i].nome+" — "+valor+"%</strong><div class='bar'><div style='width:"+valor+"%'></div></div>";
 detalhes.appendChild(div);
 });
-let mensagem=media>=90?"Sintonia muito alta! Vocês demonstram grande alinhamento.":media>=75?"Uma ótima sintonia! Vocês compartilham muitas afinidades.":media>=50?"Vocês têm pontos em comum e também oportunidades de aproximação.":"Existem diferenças importantes. O diálogo pode ajudar vocês a se conhecerem melhor.";
-document.getElementById("mensagemFinal").innerHTML="<p><strong>"+mensagem+"</strong></p><p class='small'>O resultado representa apenas a semelhança entre as respostas. Não é uma avaliação científica nem define a qualidade da relação.</p>";
+
+let mensagem=media>=90
+?"Sintonia muito alta! Vocês demonstram grande alinhamento."
+:media>=75
+?"Uma ótima sintonia! Vocês compartilham muitas afinidades."
+:media>=50
+?"Vocês têm pontos em comum e também oportunidades de aproximação."
+:"Existem diferenças importantes. O diálogo pode ajudar vocês a se conhecerem melhor.";
+
+document.getElementById("mensagemFinal").innerHTML=
+"<p><strong>"+mensagem+"</strong></p><p class='small'>O resultado representa apenas a semelhança entre as respostas. Não é uma avaliação científica nem define a qualidade da relação.</p>";
+
 mostrar("resultado");
 }
-function compartilhar(){
-let texto="❤️ Resultado CoupleLove\n"+nomes[0]+" e "+nomes[1]+"\nSintonia: "+document.getElementById("pontuacao").textContent+"\nDescubram também a sintonia de vocês!";
-let url="https://wa.me/?text="+encodeURIComponent(texto);
-window.open(url,"_blank");
+
+async function compartilhar(){
+const texto=
+"❤️ Resultado CoupleLove\n\n"+
+nomes[0]+" e "+nomes[1]+"\n"+
+"Sintonia: "+document.getElementById("pontuacao").textContent+"\n\n"+
+"Descubram também a sintonia de vocês!";
+
+if(navigator.share){
+try{
+await navigator.share({
+title:"Resultado CoupleLove",
+text:texto
+});
+return;
+}catch(erro){
+if(erro.name==="AbortError")return;
 }
+}
+
+const whatsapp="https://wa.me/?text="+encodeURIComponent(texto);
+const link=document.createElement("a");
+link.href=whatsapp;
+link.target="_blank";
+link.rel="noopener";
+document.body.appendChild(link);
+link.click();
+link.remove();
+}
+
 function reiniciar(){
 mostrar("inicio");
 }
